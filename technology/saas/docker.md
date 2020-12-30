@@ -2,7 +2,7 @@
 title: Docker 应用和原理
 description: 使用容器化技术搭建微服务
 published: true
-date: 2020-12-30T08:02:20.137Z
+date: 2020-12-30T08:17:32.653Z
 tags: docker
 editor: markdown
 dateCreated: 2020-12-10T17:21:10.697Z
@@ -846,18 +846,62 @@ docker pull localhost:5000/myfirstimage
 
 鉴于 Docker 对 Registry 生产服务的限制，如果要满足外部访问，首先需要对主机的域名支持 TLS[^17]。这里官方推荐使用 [Let’s Encrypt](https://docs.docker.com/registry/deploying/#support-for-lets-encrypt)（一个开源的 CA 提供商）生成主机的私钥和证书。
 
-首先你需要获取一台拥有公网 IP 的主机服务器和相关联的域名（假设主机为 Ubuntu 操作系统环境，域名为 `foobar.com`）。
-
-因为 Let’s Encrypt 脚本依赖 Python 实现，而 Ubuntu 较新版本的操作系统都预装了 Python3，所以这里我们只需要安装 pip（Python 的包管理工具）。
+1. 购买主机和域名
+  首先你需要获取一台拥有公网 IP 的主机服务器和相关联的域名（假设主机为 Ubuntu 操作系统环境，域名为 `foobar.com`）。
+  
+2. 安装 letsencrypt
+  因为 Let’s Encrypt 脚本依赖 Python 实现，而 Ubuntu 较新版本的操作系统都预装了 Python3，所以这里我们只需要安装 pip（Python 的包管理工具）。
 ```
 apt install -y python3-pip
 ```
 
-然后生成私钥和证书，该命令
+3. 生成私钥和证书
+  `letsencrypt` 命令会提示你输入一个邮箱账号绑定 TLS 服务。
 ```
 letsencrypt certonly --standalone -d foobar.com
 ```
+成功后你会在操作系统下面的两个目录中找到证书文件和私钥文件。
+```
+/etc/letsencrypt/live/foobar.com/fullchain.pem  # 证书
+/etc/letsencrypt/live/foobar.com/privkey.pem    # 私钥
+```
 
+4. 映射证书和私钥文件到 Registry 服务。
+在你的项目目录下，创建一个存储证书和私钥用的新目录，并把相应的证书和私钥文件拷贝过来。
+```
+mkdir certs
+cp /etc/letsencrypt/live/foobar.com/fullchain.pem certs/foobar.com.crt
+cp /etc/letsencrypt/live/foobar.com/privkey.pem certs/foobar.com.key
+```
+
+然后重新运行 Registry 服务，并把 certs 目录映射到容器内部。
+```
+$ docker run -d \
+  --restart=always \
+  --name registry \
+  -v "$(pwd)"/certs:/certs \
+  -e REGISTRY_HTTP_ADDR=0.0.0.0:443 \
+  -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/foobar.com.crt \
+  -e REGISTRY_HTTP_TLS_KEY=/certs/foobar.com.key \
+  -p 443:443 \
+  registry:2
+```
+上面的命令通过环境变量重新定义运行服务的端口为 443（而不是之前的 5000），并把 `certs` 目录中的证书和私钥文件提供给容器使用。
+
+5. 测试已经支持 TLS 的 Registry 私有镜像服务
+我们这里从 Docker Hub 拉取一个 `ubuntu:16.04` 镜像做测试，往私有镜像服务中推送。
+```
+$ docker pull ubuntu:16.04
+$ docker tag ubuntu:16.04 foobar.com/my-ubuntu
+$ docker push foobar.com/my-ubuntu
+```
+
+推送成功后，在另外的客户端重新获取。
+```
+$ docker pull foobar.com/my-ubuntu
+```
+
+至此我们已经解决了外部访问的安全限制。
 
 ### 用户授权
 
