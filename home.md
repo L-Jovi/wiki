@@ -2,7 +2,7 @@
 title: 咖啡喵的海盗船
 description: Welcome aboard. 这是两个海盗的寻宝图， 也是两个学渣的世界学笔记。请随意参观，欢迎留言 :)
 published: true
-date: 2020-12-30T03:17:20.583Z
+date: 2020-12-30T13:21:53.300Z
 tags: home
 editor: markdown
 dateCreated: 2020-11-30T13:27:26.146Z
@@ -66,8 +66,10 @@ dateCreated: 2020-11-30T13:27:26.146Z
 - [Componentization *组件设计原则*](/zh/technology/componentization/component-design)
 {.links-list}
 
-### 设计
+### 工具
 
+- [实用在线工具 *记录工作和生活常用的在线工具，长期迭代维护*](/zh/technology/tools/online)
+{.links-list}
 
 ## 游戏馆
 
