@@ -1,8 +1,8 @@
 ---
-title: 各类排序算法总结
+title: 常用排序算法总结
 description: 本文大部分内容为《大话数据结构》第九章的笔记，每个算法都附有笔者实现的 JavaScript 版本，暂供参考，后续会把笔记替换成总结输出。
 published: true
-date: 2020-12-24T17:11:22.002Z
+date: 2020-12-30T03:07:49.034Z
 tags: algorithm, sort
 editor: markdown
 dateCreated: 2020-12-05T15:39:16.357Z
