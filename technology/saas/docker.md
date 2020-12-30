@@ -2,7 +2,7 @@
 title: Docker 应用和原理
 description: 使用容器化技术搭建微服务
 published: true
-date: 2020-12-30T04:51:44.191Z
+date: 2020-12-30T04:52:15.900Z
 tags: docker
 editor: markdown
 dateCreated: 2020-12-10T17:21:10.697Z
@@ -797,7 +797,7 @@ ufw status
 
 ## 持续集成
 
-![inner-outer-loop.png](/tech/saas/docker/inner-outer-loop.png)
+![inner-outer-loop.png](/tech/saas/docker/inner-outer-loop.png =90%x)
 
 ## 私有镜像服务
 
