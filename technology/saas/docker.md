@@ -2,7 +2,7 @@
 title: Docker 应用和原理
 description: 使用容器化技术搭建微服务
 published: true
-date: 2020-12-30T08:17:32.653Z
+date: 2020-12-30T08:18:05.695Z
 tags: docker
 editor: markdown
 dateCreated: 2020-12-10T17:21:10.697Z
@@ -801,7 +801,7 @@ ufw status
 
 ## 私有镜像服务
 
-Docker 提供一种可以存储和分发镜像的平台称为 Registry[^15]，该平台本身亦如同容器一样可以以 Docker 的方式运行
+Docker 提供一种可以存储和分发镜像的平台称为 Registry[^15]，该平台本身亦如同容器一样可以以 Docker 的方式运行。
 
 不同于 Docker Hub 的服务形式，Registry 的目的是搭建属于适合你自己的私有镜像存储功能。
 
