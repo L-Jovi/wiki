@@ -2,7 +2,7 @@
 title: Docker 应用和原理
 description: 使用容器化技术搭建微服务
 published: true
-date: 2020-12-30T08:18:05.695Z
+date: 2020-12-30T08:30:04.390Z
 tags: docker
 editor: markdown
 dateCreated: 2020-12-10T17:21:10.697Z
@@ -803,7 +803,7 @@ ufw status
 
 Docker 提供一种可以存储和分发镜像的平台称为 Registry[^15]，该平台本身亦如同容器一样可以以 Docker 的方式运行。
 
-不同于 Docker Hub 的服务形式，Registry 的目的是搭建属于适合你自己的私有镜像存储功能。
+不同于 Docker Hub 的服务形式，Registry 的目的是构建属于适合你自己的**私有**镜像存储功能。
 
 ### 构建和使用
 
@@ -904,6 +904,19 @@ $ docker pull foobar.com/my-ubuntu
 至此我们已经解决了外部访问的安全限制。
 
 ### 用户授权
+
+到了上一节，我们虽然可以从外部访问到私有镜像服务，但是这意味着任何人都可以往 `foobar.com` 这个域名的 443 服务推送镜像，这一节我们就通过官方提供的[原生授权方式](https://docs.docker.com/registry/deploying/#native-basic-auth)解决该问题。
+
+Docker 使用 Apache 工具 `htpasswd` 生成账户和密码做简单访问限制。
+
+1. 生成账户和密码文件
+  在项目中创建 `auth` 目录，运行 `htpasswd` 命令生成密码和关联的用户文件。
+```
+mkdir auth
+htpasswd -Bbn testuser testpassword > auth/htpasswd
+```
+
+2. 重新
 
 ### RESTful API
 
