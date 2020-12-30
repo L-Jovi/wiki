@@ -2,7 +2,7 @@
 title: 咖啡喵的海盗船
 description: Welcome aboard. 这是两个海盗的寻宝图， 也是两个学渣的世界学笔记。请随意参观，欢迎留言 :)
 published: true
-date: 2020-12-24T17:28:32.082Z
+date: 2020-12-30T03:17:20.583Z
 tags: home
 editor: markdown
 dateCreated: 2020-11-30T13:27:26.146Z
@@ -42,10 +42,10 @@ dateCreated: 2020-11-30T13:27:26.146Z
 
 ### 客户端/前端
 
-- [JavaScript *内存泄漏 - 垃圾回收 - ES6 处理方法*](/zh/technology/web/performance)
-- [JavaScript *类型转换*](/zh/technology/web/type-conversion)
-- [Browser *现代浏览器 - 深入理解*](/zh/technology/web/inside-look-at-browser)
-- [Browser *Chrome 开发者工具使用*](/zh/technology/web/chrome-devtools)
+- [JavaScript 内存泄漏 - 垃圾回收 - ES6 处理方法 *JavaScript 内存回收、GC 的原理和处理方法*](/zh/technology/web/performance)
+- [JavaScript 类型转换 *其实也可以看成玄学*](/zh/technology/web/type-conversion)
+- [现代浏览器 - 深入理解 *对 Mariko Kosaka 所著 Inside look at modern web browser 的理解*](/zh/technology/web/inside-look-at-browser)
+- [Chrome 开发者工具使用 *浏览器开发者调试工具的使用小指南*](/zh/technology/web/chrome-devtools)
 {.links-list}
 
 ### 操作系统
