@@ -2,7 +2,7 @@
 title: Docker 应用和原理
 description: 使用容器化技术搭建微服务
 published: true
-date: 2020-12-30T08:38:00.035Z
+date: 2020-12-30T08:38:28.412Z
 tags: docker
 editor: markdown
 dateCreated: 2020-12-10T17:21:10.697Z
@@ -942,8 +942,7 @@ $ docker login foobar.com:5000
 之后就可以如同往常步骤一样推送和拉取私有镜像了。
 
 4. 使用 Compose file 管理部署
-
-我们可以把第 3 步以 `docker-compose.yml` 文件形式配置化。
+  我们可以把第 3 步以 `docker-compose.yml` 文件形式配置化。
   ```
   registry:
   restart: always
