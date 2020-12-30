@@ -1,8 +1,8 @@
 ---
 title: 现代浏览器 - 深入理解
-description: 
+description: 对 Mariko Kosaka 所著 Inside look at modern web browser 的理解
 published: true
-date: 2020-12-24T17:18:02.492Z
+date: 2020-12-30T03:16:39.407Z
 tags: browser
 editor: markdown
 dateCreated: 2020-12-07T07:23:09.114Z
