@@ -2,7 +2,7 @@
 title: Docker 应用和原理
 description: 使用容器化技术搭建微服务
 published: true
-date: 2020-12-30T09:10:45.651Z
+date: 2020-12-30T09:21:30.803Z
 tags: docker
 editor: markdown
 dateCreated: 2020-12-10T17:21:10.697Z
@@ -979,9 +979,17 @@ $ docker login foobar.com:5000
 
 # Docker 原理
 
+在上一章接触并使用 Docker 完成了诸如持续集成、服务化部署和私有镜像托管等应用功能后，我们尝试思考下，如果换做我们自己，如何借助 Linux 操作系统的生态能力实现容器呢？
+
 ## 资源隔离
 
-namespaces
+Docker 依赖 Linux namespaces[^18] 技术实现了资源隔离，你可以通过 Linux 的手册查看该功能的介绍。
+
+```
+man namespaces
+```
+
+这里的资源可以抽象为我们在使用容器运行服务后依赖的完整操作系统供给，例如独立的进程、独立的网卡和独立的挂载点等概念。
 
 ### UTS
 
@@ -1016,3 +1024,4 @@ namespaces
 [^15]: [Docker Registry | Docker Documentation](https://docs.docker.com/registry/)
 [^16]: [About Registry | Docker Documentation](https://docs.docker.com/registry/introduction/#understanding-image-naming)
 [^17]: [Deploy a registry server | Docker Documentation](https://docs.docker.com/registry/deploying/#run-an-externally-accessible-registry)
+[^18]: [namespaces(7) - Linux manual page](https://man7.org/linux/man-pages/man7/namespaces.7.html)
