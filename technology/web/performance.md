@@ -1,8 +1,8 @@
 ---
 title: JavaScript 内存泄漏 - 垃圾回收 - ES6 处理方法
-description: 
+description: JavaScript 内存回收、GC 的原理和处理方法
 published: true
-date: 2020-12-24T17:17:14.863Z
+date: 2020-12-30T03:12:59.517Z
 tags: javascript, gc
 editor: markdown
 dateCreated: 2020-11-30T15:05:19.322Z
@@ -15,6 +15,7 @@ dateCreated: 2020-11-30T15:05:19.322Z
 对于持续运行的服务进程（daemon），必须及时释放不再用到的内存。否则，内存占用越来越高，轻则影响系统性能，重则导致进程崩溃。
 
 不再用到的内存，没有及时释放，就叫做 **内存泄漏（memory leak）**。
+
 
 ## 内存管理
 
