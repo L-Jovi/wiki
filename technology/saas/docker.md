@@ -2,7 +2,7 @@
 title: Docker 应用和原理
 description: 使用容器化技术搭建微服务
 published: true
-date: 2020-12-30T04:52:15.900Z
+date: 2020-12-30T08:02:20.137Z
 tags: docker
 editor: markdown
 dateCreated: 2020-12-10T17:21:10.697Z
@@ -801,11 +801,67 @@ ufw status
 
 ## 私有镜像服务
 
+Docker 提供一种可以存储和分发镜像的平台称为 Registry[^15]，该平台本身亦如同容器一样可以以 Docker 的方式运行
+
+不同于 Docker Hub 的服务形式，Registry 的目的是搭建属于适合你自己的私有镜像存储功能。
+
 ### 构建和使用
+
+依赖官方开源提供的 `registry:2` 镜像，我们可以从中方便的运行容器服务。
+
+```
+docker run -d -p 5000:5000 --name registry registry:2
+```
+
+上述命令使我们拥有了一个运行在 5000 端口的镜像托管服务，我们接着推送镜像到上面看看。
+
+先从 Docker Hub 拉取 ubuntu 的镜像到本地。
+
+```
+docker pull ubuntu
+```
+
+然后通过 `tag` 指令重命名本地的 ubuntu 镜像名称。
+
+```
+docker image tag ubuntu localhost:5000/myfirstimage
+```
+需要注意，上面命令中之所以重命名为 `localhost:5000` 的前缀是因为 Docker 对镜像的命名方式[^16]决定了镜像的拉取和推送标识方式均以 `<domain:port>/<image_owner_name>/<image_name>:<image_version>` 的格式展示。
+
+用 `docker pull ubuntu` 为例理解，其完整的命令为 `docker pull docker.io/library/ubuntu:latest`。
+
+重命名后，可以直接推送到私有镜像服务中。
+```
+docker push localhost:5000/myfirstimage
+```
+
+其他能够访问到该服务的客户端可以用类似的方式拉取该镜像。
+```
+docker pull localhost:5000/myfirstimage
+```
 
 ### 支持 HTTPS
 
+上一节的方法在生产环境中当然是无法使用的，首先我们需要让外部客户端可以访问到主机，而不是用 `locahost` 的方式做单机模拟。
+
+鉴于 Docker 对 Registry 生产服务的限制，如果要满足外部访问，首先需要对主机的域名支持 TLS[^17]。这里官方推荐使用 [Let’s Encrypt](https://docs.docker.com/registry/deploying/#support-for-lets-encrypt)（一个开源的 CA 提供商）生成主机的私钥和证书。
+
+首先你需要获取一台拥有公网 IP 的主机服务器和相关联的域名（假设主机为 Ubuntu 操作系统环境，域名为 `foobar.com`）。
+
+因为 Let’s Encrypt 脚本依赖 Python 实现，而 Ubuntu 较新版本的操作系统都预装了 Python3，所以这里我们只需要安装 pip（Python 的包管理工具）。
+```
+apt install -y python3-pip
+```
+
+然后生成私钥和证书，该命令
+```
+letsencrypt certonly --standalone -d foobar.com
+```
+
+
 ### 用户授权
+
+### RESTful API
 
 ## 监控
 
@@ -833,3 +889,6 @@ ufw status
 [^12]: [Networking with standalone containers | Docker Documentation](https://docs.docker.com/network/network-tutorial-standalone/)
 [^13]: [Docker and iptables | Docker Documentation](https://docs.docker.com/network/iptables/)
 [^14]: [chaifeng/ufw-docker: To fix the Docker and UFW security flaw without disabling iptables](https://github.com/chaifeng/ufw-docker)
+[^15]: [Docker Registry | Docker Documentation](https://docs.docker.com/registry/)
+[^16]: [About Registry | Docker Documentation](https://docs.docker.com/registry/introduction/#understanding-image-naming)
+[^17]: [Deploy a registry server | Docker Documentation](https://docs.docker.com/registry/deploying/#run-an-externally-accessible-registry)
