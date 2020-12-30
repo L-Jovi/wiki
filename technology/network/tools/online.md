@@ -2,13 +2,11 @@
 title: 实用在线工具
 description: 记录工作和生活常用的在线工具，长期迭代维护
 published: true
-date: 2020-12-30T13:08:55.189Z
+date: 2020-12-30T13:18:40.862Z
 tags: tools
 editor: markdown
 dateCreated: 2020-12-30T13:08:55.189Z
 ---
-
-# 实用在线工具
 
 根据工作和生活使用场景，区分领域和功能，提供以下常用在线工具列表。
 
@@ -51,6 +49,23 @@ dateCreated: 2020-12-30T13:08:55.189Z
   
 - [PicResize](https://picresize.com/)
   除了基本的图像编辑外，还提供效果类功能
+  
+- [LUNAPIC](https://www3.lunapic.com/editor/)
+  提供丰富的图像效果类编辑功能，其中包含较多的艺术化效果展示
 
 - [TinyPNG](https://tinypng.com/)
-  PNG 和 JPEG 图像压缩工具
+  PNG 和 JPEG 图像压缩工具，优势是最大化保留图像内容，并且能够处理低版本 Photoshop 无法处理的特殊图像
+
+## 原型和图表
+
+- [moqups](https://moqups.com/)
+  提供串联原型的图表和线框模型示意图
+  
+- [yuml](https://yuml.me/)
+  UML 图在线设计和编辑，风格具有简洁性和设计感
+  
+- [bubbl.us](https://bubbl.us/mindmap)
+  在线脑图制作
+  
+- [smartsheet](https://app.smartsheet.com/b/home)
+  在线 Excel 制作，支持分享和导入。长期使用需要付费
