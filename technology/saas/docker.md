@@ -2,7 +2,7 @@
 title: Docker 应用和原理
 description: 使用容器化技术搭建微服务
 published: true
-date: 2020-12-30T08:38:28.412Z
+date: 2020-12-30T09:10:45.651Z
 tags: docker
 editor: markdown
 dateCreated: 2020-12-10T17:21:10.697Z
@@ -968,6 +968,9 @@ $ docker login foobar.com:5000
 
 ### RESTful API
 
+> 本小节内容等待进一步完善
+{.is-warning}
+
 ## 监控
 
 > 本小节内容等待进一步完善
@@ -978,7 +981,23 @@ $ docker login foobar.com:5000
 
 ## 资源隔离
 
+namespaces
+
+### UTS
+
+### IPC
+
+### PID
+
+### Network
+
+### 挂载点
+
+## cgroup
+
 ## 存储驱动
+
+### Union FS 
 
 [^1]: [Docker Overview | Docker Documentation](https://docs.docker.com/get-started/overview/)
 [^2]: [Get Docker | Docker Documentation](https://docs.docker.com/get-docker/)
