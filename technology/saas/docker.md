@@ -2,7 +2,7 @@
 title: Docker 应用和原理
 description: 使用容器化技术搭建微服务
 published: true
-date: 2020-12-30T08:30:04.390Z
+date: 2020-12-30T08:37:34.510Z
 tags: docker
 editor: markdown
 dateCreated: 2020-12-10T17:21:10.697Z
@@ -916,7 +916,55 @@ mkdir auth
 htpasswd -Bbn testuser testpassword > auth/htpasswd
 ```
 
-2. 重新
+2. 重新部署 Registry 服务
+  这里为了便于下一步授权理解，我们改为 5000 端口启动容器。
+```
+$ docker container stop registry
+
+$ docker run -d \
+  --restart=always \
+  --name registry \
+  -p 5000:5000 \
+  -v "$(pwd)"/auth:/auth \
+  -e "REGISTRY_AUTH=htpasswd" \
+  -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
+  -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd \
+  -v "$(pwd)"/certs:/certs \
+  -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/foobar.com.crt \
+  -e REGISTRY_HTTP_TLS_KEY=/certs/foobar.com.key \
+  registry:2
+```
+
+3. 登录授权
+```
+$ docker login foobar.com:5000
+```
+之后就可以如同往常步骤一样推送和拉取私有镜像了。
+
+4. 使用 Compose file 管理部署
+  我们可以把第 3 步以 `docker-compose.yml` 文件形式配置化。
+  ```
+  registry:
+  restart: always
+  image: registry:2
+  ports:
+    - 5000:5000
+  environment:
+    REGISTRY_HTTP_TLS_CERTIFICATE: /certs/foobar.com.crt
+    REGISTRY_HTTP_TLS_KEY: /certs/foobar.com.key
+    REGISTRY_AUTH: htpasswd
+    REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+    REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+  volumes:
+    - /path/data:/var/lib/registry
+    - /path/certs:/certs
+    - /path/auth:/auth
+  ```
+  
+  然后使用 `docker-compose` 命令部署。
+  ```
+  docker-compose up -d
+  ```
 
 ### RESTful API
 
