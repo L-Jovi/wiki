@@ -2,7 +2,7 @@
 title: Docker 应用和原理
 description: 使用容器化技术搭建微服务
 published: true
-date: 2021-01-01T13:06:26.393Z
+date: 2021-01-01T14:11:48.134Z
 tags: docker
 editor: markdown
 dateCreated: 2020-12-10T17:21:10.697Z
@@ -1065,9 +1065,13 @@ foobar
 jovi.archer
 ```
 
-### IPC
-
 ### PID
+
+在实现进程号隔离之前，我们需要了解 Linux 关于进程的一些信息。
+
+如果你使用过 `ps -ef` 命令查看当前操作系统运行的进程，
+
+### IPC
 
 ### Network
 
