@@ -1,8 +1,8 @@
 ---
 title: AutoSSH
-description: 解决 SSH 反向代理超时断开连接的问题
+description: 提供反向代理服务并解决 SSH 超时断开连接的问题
 published: true
-date: 2021-01-01T16:01:29.167Z
+date: 2021-01-01T16:03:17.614Z
 tags: network, autossh
 editor: markdown
 dateCreated: 2020-11-30T15:00:22.007Z
