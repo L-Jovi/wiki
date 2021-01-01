@@ -2,7 +2,7 @@
 title: AutoSSH
 description: 解决 SSH 反向代理超时断开连接的问题
 published: true
-date: 2021-01-01T15:33:13.807Z
+date: 2021-01-01T16:01:29.167Z
 tags: network, autossh
 editor: markdown
 dateCreated: 2020-11-30T15:00:22.007Z
@@ -26,7 +26,19 @@ SSH 提供了 `-R` 和 `-L` 可以绑定某台线上节点的端口到本地任�
 
 ## 安装
 
-前往 https://www.harding.motd.ca/autossh/ 完成下载
+### apt
+
+在 Ubuntu 操作系统下可以直接使用 `apt` 包管理安装。
+
+```
+apt-get install -y autossh
+```
+
+### 手动安装
+
+在某些不支持 `apt` 或 `snap` 包管理的操作系统中，推荐手动安装。
+
+前往 https://www.harding.motd.ca/autossh/ 完成下载。
 
 ```
 gunzip -c autossh-1.4e.tgz | tar xvf -
@@ -37,7 +49,25 @@ make
 # examine autossh.host for example wrapper script and options
 ```
 
+## 使用
+
+`autossh` 命令与 `ssh` 反向代理端口绑定参数规格一致，`-f` 表示后台执行该命令，`-C` 压缩传输数据，`-N` 禁止远程指令。而 `-M` 参数则会额外提供一个端口使得公网主机获取本地机器信息，以便于在 SSH 隧道中断时让远端主机重新建立连接。
+
+```
+autossh -M [remote_port] -fCNR [port]:localhost:[port] [user_name]@[ip_address]
+```
+
+假定你已经拥有一台远端主机 `foobar.com`，使用上面的格式，我们可以把该远程主机的 3000 端口绑定到本地运行着 Minecraft 服务的 25565 端口。
+
+```
+autossh -M 3001 -fCNR 3000:localhost:25565 root@foobar.com
+```
+
+这样所有访问到 `foobar.com:3000` 的请求都会被转发到内网本地 `localhost:25565` 的 Minecraft 服务器中，并开启远程主机 3001 端口监听隧道情况，实现了反向代理的同时保证了会话流量的稳定转发。
+
 ## 守护进程
+
+上一节的服务可以使用进程管理器进行更有效的控制。
 
 ### PM2
 
@@ -55,7 +85,7 @@ make
 
 while true
 do
-autossh -M0 -v -N -R [port]:localhost:[port] [user name]@[ip address]
+autossh -M [remote_port] -fCNR [port]:localhost:[port] [user_name]@[ip_address]
 done
 ```
 
