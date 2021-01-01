@@ -2,7 +2,7 @@
 title: Docker 应用和原理
 description: 使用容器化技术搭建微服务
 published: true
-date: 2021-01-01T14:58:30.079Z
+date: 2021-01-01T14:59:13.840Z
 tags: docker
 editor: markdown
 dateCreated: 2020-12-10T17:21:10.697Z
@@ -1050,7 +1050,7 @@ func must(err error) {
 }
 ```
 
-保存上方逻辑为 `main.go`，运行下面的命令编译执行 go 代码，使用 `/bin/bash` 作为 `clone` 接口新开辟进程的解释交互环境，在新进程的 Bash 环境中更改 `hostname`，然后退出当前会话，可以发现被更改的主机名无法影响到宿主机的 `hostname`，从而实现主机名的隔离。
+保存上方逻辑为 `main.go`，运行下面的命令编译执行 go 代码，使用 `/bin/bash` 作为 `clone` 接口新开进程的解释交互环境，在新进程的 Bash 环境中更改 `hostname`，然后退出当前会话，可以发现被更改的主机名无法影响到宿主机的 `hostname`，从而实现主机名的隔离。
 
 ```
 $ go run main.go run /bin/bash
