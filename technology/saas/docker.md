@@ -2,7 +2,7 @@
 title: Docker 应用和原理
 description: 使用容器化技术搭建微服务
 published: true
-date: 2021-01-01T14:54:08.051Z
+date: 2021-01-01T14:56:42.571Z
 tags: docker
 editor: markdown
 dateCreated: 2020-12-10T17:21:10.697Z
@@ -991,7 +991,7 @@ $ man namespaces
 
 这里的资源可以抽象为我们在使用容器运行服务后依赖的完整操作系统生态供给，例如独立的进程、独立的网卡和独立的挂载点等概念。
 
-不同于宿主机运行的其他进程，容器进程通过 namespaces 实现了独立且隔离的操作系统环境，借助系统调用接口 `clone`，可以通过参数控制具体隔离的内容，可以从下面几个维度选择需要隔离的资源。
+不同于宿主机运行的其他进程，容器进程通过 namespaces 实现了独立且隔离的操作系统环境，借助系统调用接口 `clone`，通过参数控制具体隔离的内容，可以从下面几个维度选择需要隔离的资源。
 
 - 主机 UTS（Unix Time-sharing System）
   传参 `CLONE_NEWUTS`，可以隔离主机名和域名
