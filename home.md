@@ -2,7 +2,7 @@
 title: 咖啡喵的海盗船
 description: Welcome aboard. 这是两个海盗的寻宝图， 也是两个学渣的世界学笔记。请随意参观，欢迎留言 :)
 published: true
-date: 2020-12-30T13:21:53.300Z
+date: 2021-01-01T16:03:10.974Z
 tags: home
 editor: markdown
 dateCreated: 2020-11-30T13:27:26.146Z
@@ -53,7 +53,7 @@ dateCreated: 2020-11-30T13:27:26.146Z
 ### 网络
 
 - [HTTP *HTTP1.x、HTTP2.0、HTTPS 区别和特性*](/zh/technology/network/http)
-- [AutoSSH *公网反向代理本地服务工具*](/zh/technology/network/autossh)
+- [AutoSSH *提供反向代理服务并解决 SSH 超时断开连接的问题*](/zh/technology/network/autossh)
 {.links-list}
 
 ### 服务化
