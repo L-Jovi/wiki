@@ -2,7 +2,7 @@
 title: AutoSSH
 description: 解决 SSH 反向代理超时断开连接的问题
 published: true
-date: 2021-01-01T15:33:07.784Z
+date: 2021-01-01T15:33:13.807Z
 tags: network, autossh
 editor: markdown
 dateCreated: 2020-11-30T15:00:22.007Z
@@ -36,7 +36,6 @@ make
 # copy binary to where you wish it, or "make install" will install it under /usr/local by default.
 # examine autossh.host for example wrapper script and options
 ```
-
 
 ## 守护进程
 
