@@ -2,7 +2,7 @@
 title: 实用在线工具
 description: 记录工作和生活常用的在线工具，长期迭代维护
 published: true
-date: 2020-12-30T13:21:02.270Z
+date: 2021-01-01T03:42:23.147Z
 tags: tools
 editor: markdown
 dateCreated: 2020-12-30T13:08:55.189Z
@@ -55,6 +55,9 @@ dateCreated: 2020-12-30T13:08:55.189Z
 
 - [TinyPNG](https://tinypng.com/)
   PNG 和 JPEG 图像压缩工具，优势是最大化保留图像内容，并且能够处理低版本 Photoshop 无法处理的特殊图像
+  
+- [Favicon Generator. For real.](https://realfavicongenerator.net/)
+  
 
 ## 原型和图表
 
