@@ -2,7 +2,7 @@
 title: Docker 应用和原理
 description: 使用容器化技术搭建微服务
 published: true
-date: 2020-12-30T09:21:30.803Z
+date: 2021-01-01T13:06:26.393Z
 tags: docker
 editor: markdown
 dateCreated: 2020-12-10T17:21:10.697Z
@@ -989,9 +989,81 @@ Docker 依赖 Linux namespaces[^18] 技术实现了资源隔离，你可以通�
 man namespaces
 ```
 
-这里的资源可以抽象为我们在使用容器运行服务后依赖的完整操作系统供给，例如独立的进程、独立的网卡和独立的挂载点等概念。
+这里的资源可以抽象为我们在使用容器运行服务后依赖的完整操作系统生态供给，例如独立的进程、独立的网卡和独立的挂载点等概念。
 
-### UTS
+不同于宿主机运行的其他进程，容器进程通过 namespaces 实现了独立且隔离的操作系统环境，借助系统调用接口 `clone`，可以通过参数控制具体隔离的内容，可以从下面几个维度选择需要隔离的资源。
+
+- 主机 UTS（Unix Time-sharing System）
+  传参 `CLONE_NEWUTS`，可以隔离主机名和域名
+- 进程号 PID（Process ID）
+  传参 `CLONE_NEWPID`，可以隔离进程号
+- 进程间通讯 IPC（Inter-Process Communication）
+  传参 `CLONE_NEWIPC`，可以隔离信号量、消息队列、共享内存、Socket 和 Stream
+- 网络 Network
+  传参 `CLONE_NEWNET`，可以隔离网络设备和端口
+- 挂载点 Mount
+  传参 `CLONE_NEWNS`，可以隔离文件系统的挂载点
+
+参考 [GopherCon UK](https://www.youtube.com/channel/UC9ZNrGdT2aAdrNbX78lbNlQ) 发布的 [ Let's write one in Go from scratch](https://www.youtube.com/watch?v=HPuvDm8IC-4)[^19]，我们可以通过关键逻辑理解 namespaces 具体如何实现基本资源隔离。
+
+### UTS（Unix Time-sharing System）
+
+依赖 Go 实现下方[初步逻辑](https://youtu.be/HPuvDm8IC-4?t=609)，调用系统接口，传入参数 `CLONE_NEWUTS` 可以实现主机名的隔离。
+
+```
+package main
+
+import (
+    "fmt"
+    "os"
+    "os/exec"
+    "syscall"
+)
+
+func main() {
+    switch os.Args[1] {
+    case "run":
+        run()
+    default:
+        fmt.Printf("do nothing, exit!!!")
+    }
+}
+
+func run() {
+    fmt.Printf("running %v\n", os.Args[2:])
+    cmd := exec.Command(os.Args[2], os.Args[3:]...)
+    cmd.Stdin = os.Stdin
+    cmd.Stdout = os.Stdout
+    cmd.Stderr = os.Stderr
+
+    cmd.SysProcAttr = &syscall.SysProcAttr{
+        Cloneflags: syscall.CLONE_NEWUTS,
+    }
+
+    must(cmd.Run())
+}
+
+func must(err error) {
+    if err != nil {
+        panic(err)
+    }
+}
+```
+
+保存上方逻辑为 `main.go`，运行下面的命令编译执行 go 代码，使用 `/bin/bash` 作为 `clone` 接口新开辟进程的解释交互环境，在新进程的 Bash 环境中更改 `hostname`，然后退出当前会话，可以发现被更改的主机名无法影响到宿主机的 `hostname`，从而实现主机名的隔离。
+
+```
+$ go run main.go run /bin/bash
+running [/bin/bash]
+# hostname
+jovi.archer
+# hostname foobar
+# hostname
+foobar
+# exit
+~/playground/docker-go archer@jovi hostname
+jovi.archer
+```
 
 ### IPC
 
@@ -1025,3 +1097,4 @@ man namespaces
 [^16]: [About Registry | Docker Documentation](https://docs.docker.com/registry/introduction/#understanding-image-naming)
 [^17]: [Deploy a registry server | Docker Documentation](https://docs.docker.com/registry/deploying/#run-an-externally-accessible-registry)
 [^18]: [namespaces(7) - Linux manual page](https://man7.org/linux/man-pages/man7/namespaces.7.html)
+[^19]: [Golang UK Conf. 2016 - Liz Rice - What is a container, really? Let's write one in Go from scratch](https://www.youtube.com/watch?v=HPuvDm8IC-4)
