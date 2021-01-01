@@ -2,7 +2,7 @@
 title: Docker 应用和原理
 description: 使用容器化技术搭建微服务
 published: true
-date: 2021-01-01T14:56:42.571Z
+date: 2021-01-01T14:58:30.079Z
 tags: docker
 editor: markdown
 dateCreated: 2020-12-10T17:21:10.697Z
@@ -1008,7 +1008,7 @@ $ man namespaces
 
 ### UTS（Unix Time-sharing System）
 
-依赖 Go 实现下方[初步逻辑](https://youtu.be/HPuvDm8IC-4?t=609)，调用系统接口，传入参数 `CLONE_NEWUTS` 可以实现主机名的隔离。
+依赖 Go 实现下方[初步逻辑](https://youtu.be/HPuvDm8IC-4?t=609)，调用系统接口 `clone`，传入参数 `CLONE_NEWUTS` 可以实现主机名的隔离。
 
 ```
 package main
