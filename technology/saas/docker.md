@@ -2,7 +2,7 @@
 title: Docker 应用和原理
 description: 使用容器化技术搭建微服务
 published: true
-date: 2021-01-01T14:11:48.134Z
+date: 2021-01-01T14:54:08.051Z
 tags: docker
 editor: markdown
 dateCreated: 2020-12-10T17:21:10.697Z
@@ -986,7 +986,7 @@ $ docker login foobar.com:5000
 Docker 依赖 Linux namespaces[^18] 技术实现了资源隔离，你可以通过 Linux 的手册查看该功能的介绍。
 
 ```
-man namespaces
+$ man namespaces
 ```
 
 这里的资源可以抽象为我们在使用容器运行服务后依赖的完整操作系统生态供给，例如独立的进程、独立的网卡和独立的挂载点等概念。
@@ -1025,7 +1025,7 @@ func main() {
     case "run":
         run()
     default:
-        fmt.Printf("do nothing, exit!!!")
+        panic("what?")
     }
 }
 
@@ -1061,7 +1061,7 @@ jovi.archer
 # hostname
 foobar
 # exit
-~/playground/docker-go archer@jovi hostname
+$ hostname
 jovi.archer
 ```
 
@@ -1069,7 +1069,103 @@ jovi.archer
 
 在实现进程号隔离之前，我们需要了解 Linux 关于进程的一些信息。
 
-如果你使用过 `ps -ef` 命令查看当前操作系统运行的进程，
+如果你使用过 `ps -ef` 命令查看当前操作系统运行的进程，就会发现下面两个特殊的进程。
+
+```
+$ ps -ef
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         1     0  0 22:05 ?        00:00:01 /sbin/init
+root         2     0  0 22:05 ?        00:00:00 [kthreadd]
+```
+
+其中一个是 PID 为 1 的 `/sbin/init` 进程，该进程会执行系统初始化任务，另一个 `/kthreadd` 进程会调度其他内核进程。
+
+如果你还使用过 `pstree` 指令，就可以看到一个非常形象的进程树打印在终端中，大致长这样。
+
+```
+systemd─┬─accounts-daemon─┬─{gdbus}
+        │                 └─{gmain}
+        ├─acpid
+        ├─agetty
+        ├─atd
+        ├─containerd─┬─containerd-shim─┬─v2ray───7*[{v2ray}]
+        │            │                 └─9*[{containerd-shim}]
+        │            └─8*[{containerd}]
+        ├─cron
+        ├─dbus-daemon
+        ├─dockerd───7*[{dockerd}]
+        ├─2*[iscsid]
+        ├─lvmetad
+        ├─mdadm
+        ├─polkitd─┬─{gdbus}
+        │         └─{gmain}
+        ├─rsyslogd─┬─{in:imklog}
+        │          ├─{in:imuxsock}
+        │          └─{rs:main Q:Reg}
+        ├─snapd───8*[{snapd}]
+        ├─sshd───sshd───bash
+        ├─systemd───(sd-pam)
+        ├─systemd-journal
+        ├─systemd-logind
+        ├─systemd-timesyn───{sd-resolve}
+        └─systemd-udevd
+```
+可以留意到，所有进程都被系统服务管理器 systemd 启动，其中 containerd 就是 Docker 产生的进程名，而所有的容器示例，都被名为 containerd-shim 的进程管理，与宿主机的进程隔离。
+
+那么 Docker 是如何实现与宿主机的进程隔离呢？我们对刚才的 Go 代码继续添加 namespaces 中提及的进程隔离所依赖的系统调用接口 `clone` 的 [`CLONE_NEWPID` 参数](https://youtu.be/HPuvDm8IC-4)，并新增一个 Child 进程方便观察结果。
+
+```
+package main
+
+import (
+    "fmt"
+    "os"
+    "os/exec"
+    "syscall"
+)
+
+func main() {
+    switch os.Args[1] {
+    case "run":
+        run()
+    case "child":
+        child()
+    default:
+        panic("what?")
+    }
+}
+
+func run() {
+    fmt.Printf("running %v\n", os.Args[2:])
+    cmd := exec.Command("/proc/self/exe", append([]string{"child"}, os.Args[2:]...)...)
+    cmd.Stdin = os.Stdin
+    cmd.Stdout = os.Stdout
+    cmd.Stderr = os.Stderr
+
+    cmd.SysProcAttr = &syscall.SysProcAttr{
+        Cloneflags: syscall.CLONE_NEWUTS | syscall.CLONE_NEWPID,
+    }
+
+    must(cmd.Run())
+}
+
+func must(err error) {
+    if err != nil {
+        panic(err)
+    }
+}
+
+func child() {
+    fmt.Printf("running %v as pid: %d\n", os.Args[2:], os.Getpid())
+    cmd := exec.Command(os.Args[2], os.Args[3:]...)
+    cmd.Stdin = os.Stdin
+    cmd.Stdout = os.Stdout
+    cmd.Stderr = os.Stderr
+    
+    must(cmd.Run())
+}
+```
+此时重新运行 `go run main.go run /bin/bash` 进入到进程的交互解释环境，输入 `ps` 会看到，该进程中已经无法输出宿主机的其他进程了。
 
 ### IPC
 
