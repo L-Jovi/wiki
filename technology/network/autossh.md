@@ -2,7 +2,7 @@
 title: AutoSSH
 description: AutoSSH 可以完成从公网反向代理到本地进行 IP 和 Port 的映射
 published: true
-date: 2020-12-24T17:16:04.411Z
+date: 2021-01-01T15:02:46.031Z
 tags: network, autossh
 editor: markdown
 dateCreated: 2020-11-30T15:00:22.007Z
@@ -36,9 +36,10 @@ make
 
 ### init.d
 
-这里我们以端口重定向做演示，将公网的某台虚拟机反向代理到本地某个运行中的程序。
+这里我们以端口重定向为例，将公网的某台 VPS 反向代理到本地某个运行中的程序，并将该任务添加到 Linux 守护进程 init.d 中。
 
-**/etc/init/autossh.conf**
+`vi /etc/init/autossh.conf`
+
 ```
 #!/bin/bash
 
