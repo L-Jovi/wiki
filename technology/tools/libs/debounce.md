@@ -2,7 +2,7 @@
 title: 去抖动（Debounce）
 description: 用 JavaScript 实现 Debounce 功能
 published: true
-date: 2021-01-05T11:43:49.683Z
+date: 2021-01-05T13:06:21.212Z
 tags: javascript, tools, debounce
 editor: markdown
 dateCreated: 2021-01-05T08:10:04.873Z
@@ -60,6 +60,8 @@ input.addEventListener('input', debounce(userAction))
 
 上一节实现的逻辑，其实只不过是不断重设延迟时间，让调用行为不断等待，直到用户停下来的时候触发。
 
+## 现存问题
+
 我们试想下面几个问题。
 
 - 如果这个 `wait` 并不是 50ms，而是 500ms，用户每次频繁的交互，都会让下一次反馈等待 0.5s 才能被感知到，有没有办法可以照顾到用户的体验，在频繁的交互流程中，让下次触发的时间智能的根据上次触发的时间有效计算，而不是无限的延后固定的 0.5s 呢？
@@ -71,12 +73,143 @@ input.addEventListener('input', debounce(userAction))
 
 不过，玩具代码正是抽象思维输出的关键逻辑，我们只需要更进一步，把事情做完整即可。
 
-## 修正调用行为
+## 允许调用条件
 
-我们参考开源项目 [lodash/lodash](https://github.com/lodash/lodash)[^2] 中实现的 debounce 功能[^3]
+我们参考开源项目 [lodash/lodash](https://github.com/lodash/lodash)[^2] 中实现的 debounce 功能[^3]，从入口处[^4]开始完善我们的逻辑。
+
+首先为解决上一小节发现的第一次调用不能马上执行问题，可以在入口处做是否可以调用的判断，为了能够计算从上一次调用到现在已经流逝的时间，判断前做时间戳打点作为参数传入。
+
+```
+  function debounced(...args) {
+    const time = Date.now()
+    const isInvoking = shouldInvoke(time)
+    
+    ...
+  }
+```
+
+这个 `shouldInvoke` 功能返回是否可以调用的标识，我们来完成判断第一次调用的判断。
+
+```
+  function shouldInvoke(time) {
+    const timeSinceLastCall = time - lastCallTime
+
+    return (lastCallTime === undefined)
+  }
+```
+
+当然第一次调用前并没有任何 `lastCallTime` 产生，所以是 `undefined`。
+
+接着考虑正常情况，当距离产生上一次调用发生的时间段超出了我们设置的默认间隔，也应该让下一次调用得以执行，因此继续完善该条件。
+
+```
+  function shouldInvoke(time) {
+    const timeSinceLastCall = time - lastCallTime
+
+    return (lastCallTime === undefined || (timeSinceLastCall >= wait))
+  }
+```
+
+到这里为止，允许调用的条件已经可以应付大部分场景了，不过 lodash 多考虑了系统获取时间戳倒退的异常行为。
+
+```
+  function shouldInvoke(time) {
+    const timeSinceLastCall = time - lastCallTime
+
+    return (lastCallTime === undefined || (timeSinceLastCall >= wait) || (timeSinceLastCall < 0))
+  }
+```
+
+这样从入口，我们限制了是否可以允许当前调用的行为。
+
+## 处理调用序列边界
+
+我们接着思考调用序列中如何选择起点或终点的边界问题，目前依赖的 `setTimeout` 只能在延迟器完成计时后触发调用（即为调用序列终点处调用），想要实现在计时开始的时候就立即调用，我们需要增加一个标志位进行判断，如果用户传入了在调用序列开始的时候就触发，就显式的传入这个参数。
+
+lodash 同样提供了该功能用于指定调用产生时间点的参数 `options.leading`[^5]。
+
+> `_.debounce(func, [wait=0], [options={}])`
+  `[options={}] (Object)`: The options object.
+  `[options.leading=false] (boolean)`: Specify invoking on the leading edge of the timeout.
+  
+逻辑实现上，我们稍微更改下代码的结构，让上一节的逻辑更加贴近我们本篇内容开始实现的 “玩具代码” 结构。
+
+下面的代码，让我们先忽略掉新增的一些变量，提前搞懂这些变量的含义并没有任何帮助。
+
+```
+function debounce(func, wait, options) {
+  let timerId,
+      lastCallTime
+      result
+    
+  let lastInvokeTime = 0
+  let leading = false
+  
+  function debounced(...args) {
+    const time = Date.now()
+    const isInvoking = shouldInvoke(time)
+
+    lastCallTime = time
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime)
+      }
+    }
+    
+    ...
+  }
+
+  return debounced
+}
+```
+
+当通过了是否调用的限制 `shouldInvoke` 后，我们需要通过判断是否存在一个已经在等待的调用计时，这跟我们最早实现的 `if (timer)` 保持一致，接着回到我们的问题中来，实现一个 `leadingEdge` 功能，用以处理**调用序列开始或结束**的时候立即执行的情况。
+
+```
+  function invokeFunc(time) {
+    lastInvokeTime = time
+    result = func.apply(thisArg, args)
+    return result
+  }
+  
+  function leadingEdge(time) {
+    lastInvokeTime = time
+    return leading ? invokeFunc(time) : setTimeout(timerExpired, wait)
+  }
+```
+
+我们通过对标志位 `leading` 的判断，处理在**调用序列起点产生调用**的场景，直接触发调用并记录这次触发的时间点。如果是在**调用序列终点调用**，我们就照常处理，开启一个延迟计时器，延迟触发调用。
+
+## 修正调用间需要等待的时间
+
+到目前为止，我们的 `debounce` 函数功能不断完善，但是涉及到用户体验的等待时间问题还没有得到解决。
+
+试想下，每次用户触发最后一次操作，都需要等待固定的 `wait` 时间，一旦这个值设置的能够被用户感知到，就会马上产生 “我做任何动作都会导致当前页面变卡” 的错觉。
+
+那我们就来实现上一节逻辑中出现但没有解释的 `timerExpired` 函数，用以解决计算真实等待时间的问题。
+
+```
+  function remainingWait(time) {
+    const timeSinceLastCall = time - lastCallTime
+    const timeWaiting = wait - timeSinceLastCall
+    return timeWaiting
+  }
+  
+  function timerExpired() {
+    const time = Date.now()
+    timerId = setTimeout(timerExpired, remainingWait(time))
+  }
+```
+
+在 `timerExpired` 中我们开启一个延迟计时器处理非调用序列起点的调用场景，这个调用的时间点可以是**调用序列中间的某个时刻**，也可以是**延迟计时结束后的终点处**。
+
+我们先考虑中间某个时刻调用场景，要计算出准确的延迟时间，就需要先知道距离上一次调用已经过去了多久，然后用设置的固定延迟时间 `wait - 已经流逝掉的时间`，自然就能得到**还需要继续等待的时间**。
 
 # 额外功能
 
 [^1]: [Debouncing and Throttling Explained Through Examples | CSS-Tricks  ](https://css-tricks.com/debouncing-throttling-explained-examples/)
 [^2]: [lodash/lodash: A modern JavaScript utility library delivering modularity, performance, & extras.](https://github.com/lodash/lodash)
 [^3]: [lodash/debounce.js at master · lodash/lodash](https://github.com/lodash/lodash/blob/master/debounce.js)
+[^4]: [lodash/debounce.js at master · lodash/lodash#L184](https://github.com/lodash/lodash/blob/master/debounce.js#L184)
+[^5]: [Lodash Documentation](https://lodash.com/docs/4.17.15#debounce)
