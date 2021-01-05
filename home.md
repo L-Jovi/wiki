@@ -2,7 +2,7 @@
 title: 咖啡喵的海盗船
 description: Welcome aboard. 这是两个海盗的寻宝图， 也是两个学渣的世界学笔记。请随意参观 :)
 published: true
-date: 2021-01-05T01:57:17.012Z
+date: 2021-01-05T03:26:09.478Z
 tags: home
 editor: markdown
 dateCreated: 2020-11-30T13:27:26.146Z
@@ -78,6 +78,11 @@ dateCreated: 2020-11-30T13:27:26.146Z
 
 > 我很少花时间来想过去的事情，也绝不会对它们以任何方式排序。我回顾的时候会觉得过去这些年干了很多很棒的活，但未来能做的事才是令我更为激动的。
   —— 约翰·卡马克
+  
+### 休闲区
+
+- [2048 体验版 *HTML5 实现的 2048 Web 版本，没有积分功能 :)*](/zh/games/casual/2048)
+{.links-list}
 
 ## ACG
 
