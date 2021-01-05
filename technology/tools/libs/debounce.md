@@ -2,7 +2,7 @@
 title: 去抖动（Debounce）
 description: 用 JavaScript 实现 Debounce 功能
 published: true
-date: 2021-01-05T13:06:21.212Z
+date: 2021-01-05T13:25:16.862Z
 tags: javascript, tools, debounce
 editor: markdown
 dateCreated: 2021-01-05T08:10:04.873Z
@@ -207,6 +207,63 @@ function debounce(func, wait, options) {
 我们先考虑中间某个时刻调用场景，要计算出准确的延迟时间，就需要先知道距离上一次调用已经过去了多久，然后用设置的固定延迟时间 `wait - 已经流逝掉的时间`，自然就能得到**还需要继续等待的时间**。
 
 # 额外功能
+
+来到这里，我们的 `debounce` 已经相对完善，不仅可以正确的处理调用序列的触发时间点，而且能够处理第一次调用的立即执行，最后还可以从体验上动态的计算用户每次触发交互还需要继续等待的延迟时间，看似一切都已经很完备了，不过 lodash 依然添加了一些外部功能以便于更加精确的控制去抖动场景。
+
+```
+function debounce(func, wait, options) {
+  let timerId,
+      lastCallTime
+      result
+    
+  let lastInvokeTime = 0
+  let leading = false
+  
+  ...
+  
+  function trailingEdge(time) {
+    timerId = undefined
+
+    if (trailing) {
+      return invokeFunc(time)
+    }
+    return result
+  }
+  
+  function cancel() {
+    if (timerId !== undefined) {
+      cancelTimer(timerId)
+    }
+    lastInvokeTime = 0
+    lastCallTime = timerId = undefined
+  }
+  
+  function flush() {
+    return timerId === undefined ? result : trailingEdge(Date.now())
+  }
+  
+  function debounced(...args) {
+    const time = Date.now()
+    const isInvoking = shouldInvoke(time)
+
+    lastCallTime = time
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime)
+      }
+    }
+
+		return result
+  }
+  
+  debounced.cancel = cancel
+  debounced.flush = flush
+  return debounced
+}
+```
+
+上面的主逻辑实现了能够马上取消 debounce 行为的外部功能 `cancel` 和重置 debounce 行为的 `flush` 功能，前者可以立即取消当前的所有延迟计时器，对用户的任何操作都不做限制，后者则把当前时间戳覆盖上一次调用的时间点，意图使延迟计时尽快结束，从而尽快触发调用。
 
 [^1]: [Debouncing and Throttling Explained Through Examples | CSS-Tricks  ](https://css-tricks.com/debouncing-throttling-explained-examples/)
 [^2]: [lodash/lodash: A modern JavaScript utility library delivering modularity, performance, & extras.](https://github.com/lodash/lodash)
