@@ -2,7 +2,7 @@
 title: 去抖动（Debounce）
 description: 用 JavaScript 实现 Debounce 功能
 published: true
-date: 2021-01-05T08:16:49.644Z
+date: 2021-01-05T08:25:56.940Z
 tags: javascript, tools, debounce
 editor: markdown
 dateCreated: 2021-01-05T08:10:04.873Z
@@ -43,9 +43,18 @@ function debounce(func, wait = 50) {
 }
 ```
 
-上面的实现通过返回一个未被执行的函数，因此 `timer` 变量被闭包缓存起来不会销毁，每次执行的时候就可以像一个全局变量一样判断或设置该值。
+我们默认一个延迟时间为 50ms，上面的实现返回一个未被执行的匿名函数，因此 `timer` 变量被闭包缓存起来不会销毁，每次执行的时候就可以像一个全局变量一样判断或设置该值。
 
+具体使用时，下面的 `input` 事件绑定的回调函数是 `debounce(userAction)`，也就是 `debounce` 返回而未被执行的匿名函数，当 `input` 事件被浏览器感知并触发的时候，匿名函数被调用，延迟计时器重置成功。
 
+```
+function userAction() {
+	console.log('被扼制的疯狂输入')
+}
+    
+const input = document.getElementById('#input')
+input.addEventListener('input', debounce(userAction))
+```
 
 # 完善细节
 
