@@ -2,7 +2,7 @@
 title: 咖啡喵的海盗船
 description: Welcome aboard. 这是两个海盗的寻宝图， 也是两个学渣的世界学笔记。请随意参观 :)
 published: true
-date: 2021-01-05T03:28:12.498Z
+date: 2021-01-05T03:48:58.705Z
 tags: home
 editor: markdown
 dateCreated: 2020-11-30T13:27:26.146Z
@@ -81,7 +81,7 @@ dateCreated: 2020-11-30T13:27:26.146Z
   
 ### 休闲区
 
-- [2048 体验版 *HTML5 实现的 2048 Web 版本，WASD 操作，没有积分功能 :)*](/zh/games/casual/2048)
+- [2048 体验版 *HTML5 实现的 2048 Web 版本，**WASD** 操作，没有积分功能 :)*](/zh/games/casual/2048)
 {.links-list}
 
 ## ACG
