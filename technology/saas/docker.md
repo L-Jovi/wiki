@@ -2,7 +2,7 @@
 title: Docker 应用和原理
 description: 使用容器化技术搭建微服务
 published: true
-date: 2021-01-01T14:59:13.840Z
+date: 2021-01-05T02:18:06.315Z
 tags: docker
 editor: markdown
 dateCreated: 2020-12-10T17:21:10.697Z
@@ -92,7 +92,7 @@ Docker 采用客户端 - 服务端架构设计，这表示它会实现一个命�
 
 提供官方 Docker Engine 的结构图。
 
-![engine-components-flow.png](/tech/saas/docker/engine-components-flow.png)
+![engine-components-flow.png](/technology/saas/docker/engine-components-flow.png)
 
 你会留意到，上图中还进一步细化了 **image**、**container**、**data volumes** 和 **network** 这些概念。
 
@@ -106,7 +106,7 @@ Docker 采用客户端 - 服务端架构设计，这表示它会实现一个命�
 
 接下来你需要运行这个镜像，在虚拟机中这很好理解，VMware 会从 iso 压缩包中安装相应的系统然后运行，接着你会进入到该系统的可视化界面。但是在 Docker 中，这个运行流程变得更加纯粹和单一，你可能只是运行了一个后台程序（而不是多个），Docker 将这种运行中的状态称之为容器（**container**），也就是一个镜像的实例。
 
-![architecture.svg](/tech/saas/docker/architecture.svg =90%x)
+![architecture.svg](/technology/saas/docker/architecture.svg =90%x)
 
 上图中的 `docer pull` 和 `docker run` 对应从 Registry 下载镜像和通过镜像运行对应操作系统环境这两个步骤，`docker build` 制作镜像的命令，我们在镜像小节可以学习到细节。
 
@@ -185,7 +185,7 @@ CONTAINER ID        IMAGE                                 COMMAND               
 
 而虚拟机则是运行了一个完整的操作系统，你可以将之视为一个取得了操作系统所有资源授权的用户拿着宿主机提供的资源实现了独立的操作系统功能，这意味着，你在虚拟机中运行的程序，会使宿主机承担更多的开销。
 
-![container@2x.png](/tech/saas/docker/container@2x.png =45%x)
+![container@2x.png](/technology/saas/docker/container@2x.png =45%x)
 
 ## 镜像
 
@@ -306,7 +306,7 @@ volumes 是官方较为推荐的方式[^8]，因为其完全由 Docker 自行管
 
 下图简单的描述了 volumes 和 bind mounts 间的区别。
 
-![types-of-mounts-volume.png](/tech/saas/docker/types-of-mounts-volume.png)
+![types-of-mounts-volume.png](/technology/saas/docker/types-of-mounts-volume.png)
 
 ### 使用卷存储
 
@@ -797,7 +797,7 @@ ufw status
 
 ## 持续集成
 
-![inner-outer-loop.png](/tech/saas/docker/inner-outer-loop.png =90%x)
+![inner-outer-loop.png](/technology/saas/docker/inner-outer-loop.png =90%x)
 
 ## 私有镜像服务
 
