@@ -2,7 +2,7 @@
 title: 去抖动（Debounce）
 description: 用 JavaScript 实现 Debounce 功能
 published: true
-date: 2021-01-05T08:52:16.135Z
+date: 2021-01-05T09:00:28.618Z
 tags: javascript, tools, debounce
 editor: markdown
 dateCreated: 2021-01-05T08:10:04.873Z
@@ -67,7 +67,11 @@ input.addEventListener('input', debounce(userAction))
 - 参考第一节的调用序列帧图，我们发现每一段序列都有**开始**和**结束**这两个明确的边界点（试想下你打字搜索内容的时候，大多数场景都是输入几个字，停下来然后再输入几个字），那么这个 `debounce` 功能是否可以明确指定触发的时间点在序列开始或结束的时候呢（目前我们实现的延迟器都是在结束的时候才触发调用）？
 - 函数对于输入没有任何校验。
 
+只是随便想了想，我们就发现了很多问题，目前的 `debounce` 是不折不扣的玩具代码，实际运行起来，怕是自己都看不下去。
 
+不过，玩具代码正是抽象思维输出的关键逻辑，我们只需要更进一步，把事情做完整即可。
+
+## 修正调用行为
 
 
 # 额外功能
