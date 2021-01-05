@@ -2,7 +2,7 @@
 title: 去抖动（Debounce）
 description: 用 JavaScript 实现 Debounce 功能
 published: true
-date: 2021-01-05T13:29:18.668Z
+date: 2021-01-05T13:29:53.152Z
 tags: javascript, tools, debounce
 editor: markdown
 dateCreated: 2021-01-05T08:10:04.873Z
@@ -265,7 +265,7 @@ function debounce(func, wait, options) {
 
 上面的主逻辑实现了能够马上取消 debounce 行为的外部功能 `cancel` 和重置 debounce 行为的 `flush` 功能，前者可以立即取消当前的所有延迟计时器，对用户的任何操作都不做限制，后者则把当前时间戳覆盖上一次调用的时间点，意图使延迟计时尽快结束，从而尽快触发调用。
 
-至此，一个相对完整的去抖动功能得以实现，完整的逻辑请参考官方 [Github Debounce 源代码](https://github.com/lodash/lodash/blob/master/debounce.js)，完善上述没有提及的细节。
+至此，一个相对完整的去抖动功能得以实现，完整的逻辑请参考官方 [Github Debounce 源代码](https://github.com/lodash/lodash/blob/master/debounce.js)，并留意上述没有提及的一些细节。
 
 [^1]: [Debouncing and Throttling Explained Through Examples | CSS-Tricks  ](https://css-tricks.com/debouncing-throttling-explained-examples/)
 [^2]: [lodash/lodash: A modern JavaScript utility library delivering modularity, performance, & extras.](https://github.com/lodash/lodash)
