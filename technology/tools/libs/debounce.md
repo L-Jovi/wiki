@@ -2,7 +2,7 @@
 title: 去抖动（Debounce）
 description: 用 JavaScript 实现 Debounce 功能
 published: true
-date: 2021-01-05T08:10:45.595Z
+date: 2021-01-05T08:16:49.644Z
 tags: javascript, tools, debounce
 editor: markdown
 dateCreated: 2021-01-05T08:10:04.873Z
@@ -43,7 +43,9 @@ function debounce(func, wait = 50) {
 }
 ```
 
-实际
+上面的实现通过返回一个未被执行的函数，因此 `timer` 变量被闭包缓存起来不会销毁，每次执行的时候就可以像一个全局变量一样判断或设置该值。
+
+
 
 # 完善细节
 
