@@ -2,7 +2,7 @@
 title: 去抖动（Debounce）
 description: 用 JavaScript 实现 Debounce 功能
 published: true
-date: 2021-01-05T09:00:28.618Z
+date: 2021-01-05T10:31:39.406Z
 tags: javascript, tools, debounce
 editor: markdown
 dateCreated: 2021-01-05T08:10:04.873Z
@@ -73,7 +73,10 @@ input.addEventListener('input', debounce(userAction))
 
 ## 修正调用行为
 
+我们参考开源项目 [lodash/lodash](https://github.com/lodash/lodash)[^2] 中实现的 debounce 功能[^3]
 
 # 额外功能
 
 [^1]: [Debouncing and Throttling Explained Through Examples | CSS-Tricks  ](https://css-tricks.com/debouncing-throttling-explained-examples/)
+[^2]: [lodash/lodash: A modern JavaScript utility library delivering modularity, performance, & extras.](https://github.com/lodash/lodash)
+[^3]: [lodash/debounce.js at master · lodash/lodash](https://github.com/lodash/lodash/blob/master/debounce.js)
