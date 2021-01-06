@@ -2,7 +2,7 @@
 title: 去抖动（Debounce）
 description: 用 JavaScript 实现 Debounce 功能
 published: true
-date: 2021-01-06T02:11:39.882Z
+date: 2021-01-06T02:12:52.173Z
 tags: javascript, tools, debounce
 editor: markdown
 dateCreated: 2021-01-05T08:10:04.873Z
@@ -124,7 +124,7 @@ input.addEventListener('input', debounce(userAction))
 
 我们接着思考调用序列中如何选择起点或终点的边界问题，目前依赖的 `setTimeout` 只能在延迟器完成计时后触发调用（即在调用序列终点处调用），想要实现在计时开始的时候就立即调用，我们需要增加一个标志位进行判断，如果用户想在调用序列一开始的时候就触发动作，就显式的传入这个参数。
 
-lodash 同样提供了该功能用于指定调用产生时间点的参数 `options.leading`[^5]。
+lodash 同样提供了用于指定调用产生的时间点参数 `options.leading`[^5]。
 
 > `_.debounce(func, [wait=0], [options={}])`
   `[options={}] (Object)`: The options object.
