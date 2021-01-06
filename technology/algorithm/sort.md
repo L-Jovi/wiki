@@ -22,16 +22,16 @@ dateCreated: 2020-12-05T15:39:16.357Z
 
 根据在排序过程中<u>待排序的记录是否全部被放置在内存中</u>，排序分为：__内排序和外排序__。
 
-1．时间性能 
+1．时间性能
   在内排序中，主要进行两种操作：**比较**和**移动**。
   比较指关键字之间的比较，这是要做排序最起码的操作。
   移动指记录从一个位置移动到另一个位置，事实上，移动可以通过改变记录的存储方式来予以避免。
   总之，高效率的内排序算法应该是具有<u>尽可能少的关键字比较次数和尽可能少的记录移动次数</u>。
-  
-2．辅助空间 
+
+2．辅助空间
   辅助存储空间是除了存放待排序所占用的存储空间之外，执行算法所需要的其他存储空间。
 
-3．算法的复杂性 
+3．算法的复杂性
   注意这里指的是*算法本身的复杂度*，而不是指算法的时间复杂度。
   显然算法过于复杂也会影响排序的性能。
 
@@ -45,10 +45,10 @@ dateCreated: 2020-12-05T15:39:16.357Z
 typedef struct {      
     int r[MAXSIZE + 1];  /* 用于存储要排序数组，r[0] 用作哨兵或临时变量 */      
     int length;          /* 用于记录顺序表的长度 */  
-} SqList; 
+} SqList;
 ```
 
-另外，由于排序最最常用到的操作是数组两元素的交换，我们将它写成函数，在之后的讲解中会大量的用到。 
+另外，由于排序最最常用到的操作是数组两元素的交换，我们将它写成函数，在之后的讲解中会大量的用到。
 
 ```
 /* 交换L中数组r的下标为i和j的值 */
@@ -61,7 +61,7 @@ void swap ( SqList *L, int i, int j ) {
 
 # 9.3　冒泡排序
 
-## 9.3.1　最简单排序实现 
+## 9.3.1　最简单排序实现
 冒泡排序（Bubble Sort）一种<u>交换排序</u>，它的基本思想是：两两比较相邻记录的关键字，如果反序则交换，直到没有反序的记录为止。
 
 ```
@@ -93,7 +93,7 @@ void BubbleSort ( SqList *L ) {
 }
 ```
 
-![bubblesort.jpg](/tech/algorithms/sorts-summary/bubblesort.jpg)
+![bubblesort.jpg](/technology/algorithm/sort/bubblesort.jpg)
 较小的数字如同气泡般慢慢浮到上面，因此就将此算法命名为冒泡算法
 
 ## 9.3.3　冒泡排序优化
@@ -106,11 +106,11 @@ void BubbleSort2 (SqList *L) {
     Status flag = TRUE;             /* flag 用来作为标记 */
     /* 若 flag 为 true 说明有过数据交换，否则停止循环 */
     for (i = 1; i < L->length && flag; i++) {
-        flag = FALSE;               /* 初始为 false */ 
+        flag = FALSE;               /* 初始为 false */
         for (j = L->length - 1; j >= i; j--) {
             if (L->r[j] > L->r[j + 1]) {
                 swap(L, j, j + 1);  /* 交换 L->r[j] 与 L->r[j+1] 的值 */                 
-                flag = TRUE;        /* 如果有数据交换，则 flag 为 true */ 
+                flag = TRUE;        /* 如果有数据交换，则 flag 为 true */
             }
         }
     }
@@ -163,7 +163,7 @@ void SelectSort (SqList *L) {
             }
         }
         if (i != min) { /* 若min不等于i，说明找到最小值，交换 */
-            swap(L, i, min);    /* 交换L->r[i]与L->r[min]的值 */ 
+            swap(L, i, min);    /* 交换L->r[i]与L->r[min]的值 */
         }
     }
 }
@@ -191,7 +191,7 @@ const selectSort =  (arr) => {
 ```
 ## 9.4.2　简单选择排序复杂度分析
 从简单选择排序的过程来看，它最大的特点就是交换移动数据次数相当少，这样也就节约了相应的时间。
-分析它的时间复杂度发现，无论最好最差的情况，其比较次数都是一样的多，第i趟排序需要进行 n-i 次关键字的比较，此时需要比较 sigma(i=1, n-1, n-i) = ( n - 1 ) + ( n - 2 ) + ... + 1 = n ( n - 1 ) / 2 次。而对于交换次数而言，当最好的时候，交换为 0 次，最差的时候，也就初始降序时，交换次数为 n - 1 次，基于最终的排序时间是比较与交换的次数总和，因此，总的时间复杂度依然为O( n^2 )。 
+分析它的时间复杂度发现，无论最好最差的情况，其比较次数都是一样的多，第i趟排序需要进行 n-i 次关键字的比较，此时需要比较 sigma(i=1, n-1, n-i) = ( n - 1 ) + ( n - 2 ) + ... + 1 = n ( n - 1 ) / 2 次。而对于交换次数而言，当最好的时候，交换为 0 次，最差的时候，也就初始降序时，交换次数为 n - 1 次，基于最终的排序时间是比较与交换的次数总和，因此，总的时间复杂度依然为O( n^2 )。
 应该说，尽管与冒泡排序同为O( n^2 )，但简单选择排序的性能上还是要略优于冒泡排序。
 
 ---
@@ -238,7 +238,7 @@ const insertSort = (arr) => {
 ## 9.5.2　直接插入排序复杂度分析
 
 从空间上来看，它只需要一个记录的辅助空间，因此关键是看它的时间复杂度。
-![insertsorto(n).jpg](/tech/algorithms/sorts-summary/insertsorto(n).jpg)
+![insertsorto(n).jpg](/technology/algorithm/sort/insertsorto(n).jpg)
 
 ---
 
@@ -250,7 +250,7 @@ const insertSort = (arr) => {
 分割待排序记录的目的是减少待排序记录的个数，并使整个序列向基本有序发展。
 需要采取跳跃分割的策略：<u>将相距某个“增量”的记录组成一个子序列</u>，这样才能保证在子序列内分别进行直接插入排序后得到的结果是基本有序而不是局部有序。
 
-## 9.6.2　希尔排序算法 
+## 9.6.2　希尔排序算法
 ```
 /* 对顺序表L作希尔排序 */
 void ShellSort(SqList *L) {
@@ -270,7 +270,7 @@ void ShellSort(SqList *L) {
                 L->r[j + increment] = L->r[0];  /* 插入 */
             }
         }
-    } while (increment > 1); 
+    } while (increment > 1);
 }
 ```
 
@@ -280,7 +280,7 @@ const shellSort = (arr) => {
     let i, j, temp;
     let gap = arr.length;
     do {
-        gap = Math.floor(gap / 3); 
+        gap = Math.floor(gap / 3);
         for (i = gap; i < arr.length; i++) {
             if (arr[i] < arr[i - gap]) {
                 temp = arr[i];
@@ -339,7 +339,7 @@ void HeapSort (SqList *L) {
 - 第一个循环要完成的就是将现在的待排序序列构建成一个大顶堆。
 - 第二个循环要完成的就是逐步将每个最大值的根结点与末尾元素交换，并且再调整其成为大顶堆。
 
-![heapsort.jpg](/tech/algorithms/sorts-summary/heapsort.jpg)
+![heapsort.jpg](/technology/algorithm/sort/heapsort.jpg)
 
 第一个循环为何是 arr.length / 2 呢？如图，从 4 循环到 1，它们都是有孩子的结点，其实就是每次将有孩子的结点和其孩子调整好。
 
@@ -353,7 +353,7 @@ void HeapAdjust (SqList *L,int s,int m) {
     temp = L->r[s];
     for (j = 2 * s; j <= m; j *= 2) {   /* 沿关键字较大的孩子结点向下筛选 */
         if (j < m && L->r[j] < L->r[j + 1])
-            ++j;                    /* j为关键字中较大的记录的下标 */ 
+            ++j;                    /* j为关键字中较大的记录的下标 */
         if (temp >= L->r[j])
             break;                  /* rc应插入在位置s上 */
         L->r[s] = L->r[j];
@@ -451,7 +451,7 @@ void Merge(int SR[], int TR[], int i, int m, int n) {
     }
     if (j<=n) {
         for (l = 0; l <= n - j; l++)
-            TR[k + l] = SR[j + l];    /* 将剩余的SR[j..n]复制到TR */ 
+            TR[k + l] = SR[j + l];    /* 将剩余的SR[j..n]复制到TR */
     }
 }
 ```
@@ -507,7 +507,7 @@ const Merge = (SR, TR, i, m, n) => {
 由于归并排序在归并过程中需要<u>与原始记录序列同样数量的存储空间存放归并结果</u>以及<u>递归时深度为log2n的栈空间</u>，因此空间复杂度为**O(nlogn)**。
 
 另外，对代码进行仔细研究，发现Merge函数中有if(SR[i]<SR[j])语句，这就说明它需要两两比较，不存在跳跃，因此归并排序是一种稳定的排序算法。
-也就是说，归并排序是一种比较占用内存，但却效率高且稳定的算法。 
+也就是说，归并排序是一种比较占用内存，但却效率高且稳定的算法。
 
 ## 9.8.3 非递归实现归并排序
 
@@ -535,9 +535,9 @@ void MergePass(int SR[], int TR[], int k, int n) {
         Merge(SR, TR, i, i + k - 1, i + 2 * k - 1); /* 两两归并 */
         i = i + 2 * k;
     }
-    if (i < n - k + 1)                      /* 归并最后两个序列 */ 
+    if (i < n - k + 1)                      /* 归并最后两个序列 */
         Merge(SR, TR, i, i + k - 1, n);
-    else                                    /* 若最后只剩下单个子序列 */ 
+    else                                    /* 若最后只剩下单个子序列 */
         for (j = i; j <= n; j++)
             TR[j] = SR[j];
 }
@@ -634,9 +634,9 @@ T(n) ≤ nT(1) + (log2n) × n = O(nlogn)
 此时需要执行n-1次递归调用，且第i次划分需要经过n-i次关键字的比较才能找到第i个记录，也就是枢轴的位置，因此比较次数为sigma(i=1, n-1, n-i)=(n-1)+(n-2)+...+1=n(n-1)/2，最终其时间复杂度为**O(n2)** 。
 
 ### 平均的情况：
-设枢轴的关键字应该在第k的位置（1≤k≤n），那么： 
+设枢轴的关键字应该在第k的位置（1≤k≤n），那么：
 
-![quicksorto(n).jpg](/tech/algorithms/sorts-summary/quicksorto(n).jpg)
+![quicksorto(n).jpg](/technology/algorithm/sort/quicksorto(n).jpg)
 
 由数学归纳法可证明，其数量级为**O(nlogn)** 。
 
@@ -656,7 +656,7 @@ if (L->r[m] > L->r[high])
 if (L->r[m] > L->r[low])
     swap(L, m, low);               /* 交换中间与左端数据，保证左端为中值 */
 /* 此时L.r[low]已经为整个序列左中右三个关键字的中间值。 */
-    
+
 pivotkey = L->r[low];              /*用子表的第一个记录作枢轴记录 */
 ```
 
@@ -697,7 +697,7 @@ void QSort(SqList &L, int low, int high) {
         QSort(L, low, pivot - 1);                   /* 对低子表递归排序 */
         QSort(L, pivot + 1, high);                  /* 对高子表递归排序 */
     } else {
-!       InsertSort(L);                              /* 当high-low小于等于常数时用直接插入排序 */ 
+!       InsertSort(L);                              /* 当high-low小于等于常数时用直接插入排序 */
     }
 }
 ```
@@ -709,10 +709,10 @@ void QSort(SqList &L, int low, int high) {
 
 于是我们对QSort实施尾递归优化。
 ```
-/* 对顺序表L中的子序列L.r[low..high]作快速排序 */ 
+/* 对顺序表L中的子序列L.r[low..high]作快速排序 */
 void QSort1(SqList *L, int low, int high) {
     int pivot;
-    if ((high - low) > MAX_LENGTH_INSERT_SORT) { 
+    if ((high - low) > MAX_LENGTH_INSERT_SORT) {
 !       while (low < high) {
             pivot = Partition1(L, low, high);   /* L.r[low..high]一分为二，算出枢轴值pivot */
             QSort1(L, low, pivot - 1);          /* 对低子表递归排序 */
@@ -779,7 +779,7 @@ const partition = (arr, low, high) => {
         // 优化点3
         // swap(arr, low, high);
         arr[low] = arr[high];
-        
+
         while (low < high && arr[low] <= pivotKey) {
             low++;
         }
@@ -796,5 +796,5 @@ const partition = (arr, low, high) => {
 
 # 9.10　总结回顾
 
-![sortsclassify.jpg](/tech/algorithms/sorts-summary/sortsclassify.jpg)
-![sortssummary.jpg](/tech/algorithms/sorts-summary/sortssummary.jpg)
+![sortsclassify.jpg](/technology/algorithm/sort/sortsclassify.jpg)
+![sortssummary.jpg](/technology/algorithm/sort/sortssummary.jpg)
