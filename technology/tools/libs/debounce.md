@@ -2,7 +2,7 @@
 title: 去抖动（Debounce）
 description: 用 JavaScript 实现 Debounce 功能
 published: true
-date: 2021-01-06T02:12:52.173Z
+date: 2021-01-06T02:18:56.331Z
 tags: javascript, tools, debounce
 editor: markdown
 dateCreated: 2021-01-05T08:10:04.873Z
@@ -75,7 +75,7 @@ input.addEventListener('input', debounce(userAction))
 
 ## 允许调用条件
 
-我们参考开源项目 [lodash/lodash](https://github.com/lodash/lodash)[^2] 中实现的 debounce 功能[^3]，从入口处[^4]开始完善我们的逻辑。
+我们参考开源项目 [Lodash](https://github.com/lodash/lodash)[^2] 中实现的 debounce 功能[^3]，从入口处[^4]开始完善我们的逻辑。
 
 首先为解决上一小节发现的第一次调用不能马上执行问题，可以在入口处做是否可以调用的判断，为了能够计算从上一次调用到现在已经流逝的时间，判断前做时间戳打点作为参数传入。
 
@@ -124,7 +124,7 @@ input.addEventListener('input', debounce(userAction))
 
 我们接着思考调用序列中如何选择起点或终点的边界问题，目前依赖的 `setTimeout` 只能在延迟器完成计时后触发调用（即在调用序列终点处调用），想要实现在计时开始的时候就立即调用，我们需要增加一个标志位进行判断，如果用户想在调用序列一开始的时候就触发动作，就显式的传入这个参数。
 
-lodash 同样提供了用于指定调用产生的时间点参数 `options.leading`[^5]。
+Lodash 同样提供了用于指定调用产生的时间点参数 `options.leading`[^5]。
 
 > `_.debounce(func, [wait=0], [options={}])`
   `[options={}] (Object)`: The options object.
@@ -181,7 +181,7 @@ function debounce(func, wait, options) {
 
 ## 修正调用间需要等待的时间
 
-到目前为止，我们的 `debounce` 函数功能不断完善，但是涉及到用户体验的等待时间问题还没有得到解决。
+到目前为止，我们的 `debounce` 函数功能不断完善，但是涉及到用户体验的**每次交互都需要等待固定时长**的问题仍未得到解决。
 
 试想下，每次用户触发最后一次操作，都需要等待固定的 `wait` 时间，一旦这个值设置的能够被用户感知到，就会马上产生 “我做任何动作都会导致当前页面变卡” 的错觉。
 
@@ -206,7 +206,7 @@ function debounce(func, wait, options) {
 
 # 额外功能
 
-来到这里，我们的 `debounce` 已经相对完善，不仅可以正确的处理调用序列的触发时间点，而且能够处理第一次调用的立即执行，最后还可以从体验上动态的计算用户每次触发交互还需要继续等待的延迟时间，看似一切都已经很完备了，不过 lodash 依然添加了一些外部功能以便于更加精确的控制去抖动场景。
+来到这里，我们的 `debounce` 已经相对完善，不仅可以正确的处理调用序列的触发时间点，而且能够处理第一次调用的立即执行，最后还可以从体验上动态的计算用户每次触发交互还需要继续等待的延迟时间，看起来一切都已经很完备了，不过 Lodash 依然添加了一些外部功能以便于更加精确的控制去抖动场景。
 
 ```
 function debounce(func, wait, options) {
@@ -261,9 +261,9 @@ function debounce(func, wait, options) {
 }
 ```
 
-上面的主逻辑实现了能够马上取消 debounce 行为的外部功能 `cancel` 和重置 debounce 行为的 `flush` 功能，前者可以立即取消当前的所有延迟计时器，对用户的任何操作都不做限制，后者则把当前时间戳覆盖上一次调用的时间点，意图使延迟计时尽快结束，从而尽快触发调用。
+上面的主逻辑实现了能够马上取消 debounce 行为的外部功能 `cancel` 和重置 debounce 行为的 `flush` 功能，前者可以立即取消当前的所有延迟计时器，对用户的任何操作都不做限制，后者则将当前时间戳覆盖上一次调用的时间点，意图使延迟计时尽快结束，从而尽快触发调用。
 
-至此，一个相对完整的去抖动功能得以实现，完整的逻辑请参考官方 [Github Debounce 源代码](https://github.com/lodash/lodash/blob/master/debounce.js)，并留意上述没有提及的一些细节。
+至此，一个相对完整的去抖动功能得以实现，本文旨在从思考中发现并解决关键问题，并没有将所有源码细节一一详尽解释，完整的实现请带着自己的理解参考官方 [Github Lodash Debounce 源代码](https://github.com/lodash/lodash/blob/master/debounce.js)。
 
 [^1]: [Debouncing and Throttling Explained Through Examples | CSS-Tricks  ](https://css-tricks.com/debouncing-throttling-explained-examples/)
 [^2]: [lodash/lodash: A modern JavaScript utility library delivering modularity, performance, & extras.](https://github.com/lodash/lodash)
