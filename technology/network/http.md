@@ -2,7 +2,7 @@
 title: HTTP1.x、HTTP2.0、HTTPS 傻傻也要分清楚
 description: 
 published: true
-date: 2021-01-06T13:43:50.102Z
+date: 2021-01-06T13:45:03.878Z
 tags: network, http, https
 editor: markdown
 dateCreated: 2020-11-30T15:34:57.219Z
@@ -69,7 +69,7 @@ HTTP/2 中传输的帧结构如下图所示:
 后 4 个字节是 `Stream ID`, 也就是**流标识符**，有了它，接收方就能从乱序的二进制帧中选择出 ID 相同的帧，按顺序组装成请求/响应报文。
 
 以一个普通的请求-响应过程为例来说明：
-![request&response.png](/technology/network/http/request&response.png =60%x)
+![request&response.png](/technology/network/http/request&response.png =50%x)
 最开始两者都是空闲状态，当客户端发送 Headers 帧后，开始分配 `Stream ID`, 此时客户端的流打开，服务端接收之后服务端的流也打开，两端的流都打开之后，就可以互相传递数据帧和控制帧了。
 
 当客户端要关闭时，向服务端发送 `END_STREAM` 帧，进入半关闭状态, 这个时候客户端只能接收数据，而不能发送数据。
@@ -164,4 +164,4 @@ TLS/SSL 的功能实现主要依赖于三类基本算法：
 - HTTPS 是对 HTTP 的安全方面优化
 - HTTP2.0 是对 HTTP 的性能方面优化
 
-![summary.png](/technology/network/http/summary.png =80%x)
+![summary.png](/technology/network/http/summary.png =65%x)
