@@ -1,6 +1,6 @@
 ---
 title: HTTP1.x、HTTP2.0、HTTPS 傻傻也要分清楚
-description: 
+description:
 published: true
 date: 2020-12-24T17:13:57.905Z
 tags: network, http, https
@@ -21,7 +21,7 @@ HTTP 1.1支持长连接（PersistentConnection）和请求的流水线（Pipelin
   > 但这并没有真正从 HTTP 本身的层面解决问题，只是增加了 TCP 连接，分摊风险而已。而且这么做也有弊端，多条 TCP 连接会竞争有限的带宽，让真正优先级高的请求不能优先处理。
   2. **域名分片**
   一个域名不是可以并发 6 个长连接吗？那我就多分几个域名。比如 `google.com` 域名下可以分出非常多的二级域名，而它们都指向同样的一台服务器，能够并发的长连接数更多了，事实上也更好地解决了队头阻塞的问题。
-  
+
 ---
 
 # HTTP2.0 相对于 HTTP1.x 的改进（性能方面）
@@ -34,7 +34,7 @@ HTTP1.x 的 header 带有大量信息，而且每次都要重复发送（当请�
 
 HPACK 算法是专门为 HTTP/2 服务的，它主要的亮点有两个：
 - 首先是在服务器和客户端之间建立【哈希表】，将用到的字段存放在这张表中，那么在传输的时候对于之前出现过的值，只需要把索引(比如0，1，2，...)传给对方即可，对方拿到索引查表就行了。这种传索引的方式，可以说让请求头字段得到极大程度的精简和复用。
-![compressheader.png](/tech/network/https/compressheader.png)
+![compressheader.png](/technology/network/https/compressheader.png)
 
     > 小贴士
     HTTP/2 当中废除了起始行的概念，将起始行中的请求方法、URI、状态码转换成了头字段，不过这些字段都有一个":"前缀，用来和其它请求头区分开。
@@ -46,9 +46,9 @@ HPACK 算法是专门为 HTTP/2 服务的，它主要的亮点有两个：
 **新的二进制格式（Binary Format）【二进制分帧】**
 
   HTTP1.x 协议里的报文（主要指的是头部）不使用二进制数据，而是**文本形式**。（文本的表现形式有多样性，文本、图片、视频等任意数据）
-  
+
   HTTP/2 认为明文传输对机器而言太麻烦了，不方便计算机的解析，因为对于文本而言会有多义性的字符，比如回车换行到底是内容还是分隔符，在内部需要用到状态机去识别，效率比较低。于是 HTTP/2 干脆把报文全部换成二进制格式，全部传输01串，方便了机器的解析。
-  
+
   原来 `Headers + Body` 的报文格式如今被拆分成了一个个二进制的**帧**，用 `Headers` 帧存放头部字段，`Data` 帧存放请求体数据。分帧之后，服务器看到的不再是一个个完整的 HTTP 请求报文，而是一堆乱序的二进制帧。这些二进制帧不存在先后关系，因此也就不会排队等待，也就没有了 HTTP 的队头阻塞问题。
 
 通信双方都可以给对方发送二进制帧，这种 **二进制帧的双向传输的序列**，也叫做 **流 (Stream)** 。HTTP/2 用流来在一个 TCP 连接上来进行多个数据帧的通信，这就是【多路复用】的概念。
@@ -58,7 +58,7 @@ HPACK 算法是专门为 HTTP/2 服务的，它主要的亮点有两个：
 
 ## 三、设置请求优先级
 HTTP/2 中传输的帧结构如下图所示:
-![binarystream.png](/tech/network/https/binarystream.png)
+![binarystream.png](/technology/network/https/binarystream.png)
 每个帧分为**帧头**和**帧体**。先是三个字节的帧长度，这个长度表示的是帧体的长度。
 
 然后是**帧类型**，大概可以分为数据帧和控制帧两种。
@@ -69,7 +69,7 @@ HTTP/2 中传输的帧结构如下图所示:
 后 4 个字节是 `Stream ID`, 也就是**流标识符**，有了它，接收方就能从乱序的二进制帧中选择出 ID 相同的帧，按顺序组装成请求/响应报文。
 
 以一个普通的请求-响应过程为例来说明：
-![request&response.png](/tech/network/https/request&response.png)
+![request&response.png](/technology/network/https/request&response.png)
 最开始两者都是空闲状态，当客户端发送 Headers 帧后，开始分配 `Stream ID`, 此时客户端的流打开，服务端接收之后服务端的流也打开，两端的流都打开之后，就可以互相传递数据帧和控制帧了。
 
 当客户端要关闭时，向服务端发送 `END_STREAM` 帧，进入半关闭状态, 这个时候客户端只能接收数据，而不能发送数据。
@@ -88,7 +88,7 @@ HTTP/2 中传输的帧结构如下图所示:
 ## 四、服务器推送（Server Push）
 在 HTTP/2 当中，服务器已经不再是完全被动地接收请求，响应请求，它也能新建 stream 来给客户端发送消息，当 TCP 连接建立之后，比如浏览器请求一个 HTML 文件，服务器就可以在返回 HTML 的基础上，将 HTML 中引用到的其他资源文件一起返回给客户端，减少客户端的等待。
 
---- 
+---
 
 # HTTPS
 
@@ -105,7 +105,7 @@ HTTPS协议，它比HTTP协议相比多了以下优势：
 **所谓HTTPS，其实就是身披SSL协议这层外壳的HTTP。**
 在采用SSL后，HTTP就拥有了HTTPS的加密、证书和完整性保护这些功能。
 
-![https.png](/tech/network/https/https.png)
+![https.png](/technology/network/https/https.png)
 
 TLS/SSL 的功能实现主要依赖于三类基本算法：
 - 非对称加密：实现身份认证和密钥协商
@@ -126,13 +126,13 @@ TLS/SSL 的功能实现主要依赖于三类基本算法：
 - 数字签名能确定消息的完整性,证明数据是否未被篡改过。
 
     **数字签名如何生成：**
-    ![generatesignature.png](/tech/network/https/generatesignature.png)
-    
+    ![generatesignature.png](/technology/network/https/generatesignature.png)
+
     发送方：将一段文本先 **用 Hash 函数生成消息摘要**，然后 **用发送者的私钥加密生成数字签名**，与原文一起传送给接收者。
-    
+
     **校验数字签名流程：**
-    ![checksignature.png](/tech/network/https/checksignature.png)
-    
+    ![checksignature.png](/technology/network/https/checksignature.png)
+
     接收方：接收者只有 **用发送者的公钥才能解密被加密的摘要信息**，然后 **用HASH函数对收到的原文产生一个摘要信息**，与上一步得到的摘要信息对比。如果相同，则说明收到的信息是完整的，在传输过程中没有被修改，否则说明信息被修改过，因此数字签名能够验证信息的完整性。
 
 ## 解决通信方身份可能被伪装的问题——数字证书
@@ -144,24 +144,24 @@ TLS/SSL 的功能实现主要依赖于三类基本算法：
 - 服务器的运营人员向第三方机构 CA 提交公钥、组织信息、个人信息(域名)等信息并申请认证；
 - CA通过线上、线下等多种手段验证申请者提供信息的真实性，如组织是否存在、企业是否合法，是否拥有域名的所有权等；
 - 如信息审核通过，CA 会向申请者签发认证文件 - **证书**。
-证书包含以下信息：**申请者公钥**、申请者的组织信息和个人信息、**签发机构 CA 的信息**、有效时间、证书序列号等信息的明文，同时包含一个**签名**。 
+证书包含以下信息：**申请者公钥**、申请者的组织信息和个人信息、**签发机构 CA 的信息**、有效时间、证书序列号等信息的明文，同时包含一个**签名**。
 其中签名的产生算法：首先，使用**散列函数**计算公开的明文信息的**信息摘要**；然后，采用 CA 的私钥对信息摘要进行加密，密文即**签名**；
 - 客户端 Client 向服务器 Server 发出请求时，Server 返回证书文件；
 - 客户端 Client 读取证书中的相关的明文信息，采用相同的散列函数计算得到信息摘要，然后，利用对应 CA 的公钥解密签名数据，对比证书的**信息摘要**，如果一致，则可以确认证书的合法性，即服务器的公开密钥是值得信赖的。
 （数字证书认证机构的公开密钥已事先植入到浏览器里了。）
 - 客户端还会验证证书相关的域名信息、有效时间等信息; 客户端会内置信任CA的证书信息(包含公钥)，如果CA不被信任，则找不到对应 CA的证书，证书也会被判定非法。
-![certificateauthority.png](/tech/network/https/certificateauthority.png)
+![certificateauthority.png](/technology/network/https/certificateauthority.png)
 
 
 参考链接：[深入理解HTTPS工作原理](https://github.com/ljianshu/Blog/issues/50)
 
 最后：
 
-![httpsflow.png](/tech/network/https/httpsflow.png)
+![httpsflow.png](/technology/network/https/httpsflow.png)
 
 
 # 总结
 - HTTPS 是对 HTTP 的安全方面优化
 - HTTP2.0 是对 HTTP 的性能方面优化
 
-![summary.png](/tech/network/https/summary.png)
+![summary.png](/technology/network/https/summary.png)
