@@ -2,7 +2,7 @@
 title: 咖啡喵的海盗船
 description: Welcome aboard. 这是两个海盗的寻宝图， 也是两个学渣的世界学笔记。请随意参观 :)
 published: true
-date: 2021-01-05T13:30:18.204Z
+date: 2021-01-06T01:45:38.296Z
 tags: home
 editor: markdown
 dateCreated: 2020-11-30T13:27:26.146Z
@@ -61,7 +61,7 @@ dateCreated: 2020-11-30T13:27:26.146Z
 - [Docker 应用和原理 *使用容器化技术搭建微服务*](/zh/technology/saas/docker)
 {.links-list}
 
-### 组件化
+### 应用设计
 
 - [Componentization *组件设计原则*](/zh/technology/componentization/component-design)
 {.links-list}
