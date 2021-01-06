@@ -2,7 +2,7 @@
 title: 去抖动（Debounce）
 description: 用 JavaScript 实现 Debounce 功能
 published: true
-date: 2021-01-06T01:58:03.211Z
+date: 2021-01-06T02:00:15.314Z
 tags: javascript, tools, debounce
 editor: markdown
 dateCreated: 2021-01-05T08:10:04.873Z
@@ -58,7 +58,7 @@ input.addEventListener('input', debounce(userAction))
 
 # 完善细节
 
-上一节实现的逻辑，其实只不过是不断重设延迟时间，让调用行为不断等待，直到用户停下来的时候触发。
+上一节实现的逻辑，其实只不过是不断重设延迟时间，让调用行为不断等待，直到用户停止操作的间隔超过 50ms 的时候触发。
 
 ## 现存问题
 
