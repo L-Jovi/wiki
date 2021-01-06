@@ -2,7 +2,7 @@
 title: 组件设计原则
 description: 在搭建前端公共组件库时的组件规范化思考与总结
 published: true
-date: 2020-12-24T17:21:55.165Z
+date: 2021-01-06T13:06:53.491Z
 tags: componentization
 editor: markdown
 dateCreated: 2020-12-20T10:10:38.892Z
