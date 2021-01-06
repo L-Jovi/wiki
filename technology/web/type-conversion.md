@@ -13,7 +13,7 @@ dateCreated: 2020-12-03T10:46:33.305Z
 - 转换为字符串
 - 转换为数字
 
-![primitivetypesconvert.png](/tech/web/type-converts/primitivetypesconvert.png)
+![primitivetypesconvert.png](/technology/gweb/type-conversion/primitivetypesconvert.png)
 
 ### 对象转原始类型
 
@@ -25,7 +25,7 @@ dateCreated: 2020-12-03T10:46:33.305Z
 
 #### valueOf()
 方法返回指定对象的原始值。如果对象没有原始值，则valueOf将返回对象本身。
-![valueof.png](/tech/web/type-converts/valueof.png)
+![valueof.png](/technology/gweb/type-conversion/valueof.png)
 
 #### toString()
 返回一个表示该对象的字符串。
@@ -84,7 +84,7 @@ true + true     // 2
 最终是执行 0 == 0 ，结果为 true
 ```
 
-![convertprocess.png](/tech/web/type-converts/convertprocess.png)
+![convertprocess.png](/technology/gweb/type-conversion/convertprocess.png)
 
 ### 自己的总结
 
