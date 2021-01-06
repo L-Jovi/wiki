@@ -2,7 +2,7 @@
 title: 去抖动（Debounce）
 description: 用 JavaScript 实现 Debounce 功能
 published: true
-date: 2021-01-06T02:02:55.091Z
+date: 2021-01-06T02:05:36.165Z
 tags: javascript, tools, debounce
 editor: markdown
 dateCreated: 2021-01-05T08:10:04.873Z
@@ -88,7 +88,7 @@ input.addEventListener('input', debounce(userAction))
   }
 ```
 
-这个 `shouldInvoke` 功能返回是否可以调用的标识，我们来完成判断第一次调用的判断。
+这个 `shouldInvoke` 功能返回是否可以调用的标识，我们来完成第一次调用的判断。
 
 ```
   function shouldInvoke(time) {
