@@ -2,7 +2,7 @@
 title: JavaScript 类型转换
 description: 其实也可以看成玄学
 published: true
-date: 2021-01-06T12:05:48.107Z
+date: 2021-01-06T12:07:00.885Z
 tags: javascript, type-system
 editor: markdown
 dateCreated: 2020-12-03T10:46:33.305Z
@@ -13,7 +13,7 @@ dateCreated: 2020-12-03T10:46:33.305Z
 - 转换为字符串
 - 转换为数字
 
-![primitivetypesconvert](/technology/web/type-conversion/primitivetypesconvert.jpg)
+![primitivetypesconvert](/technology/web/type-conversion/primitivetypesconvert.jpg =80%x)
 
 ### 对象转原始类型
 
@@ -25,7 +25,7 @@ dateCreated: 2020-12-03T10:46:33.305Z
 
 #### valueOf()
 方法返回指定对象的原始值。如果对象没有原始值，则valueOf将返回对象本身。
-![valueof](/technology/web/type-conversion/valueof.jpg)
+![valueof](/technology/web/type-conversion/valueof.jpg =65%x)
 
 #### toString()
 返回一个表示该对象的字符串。
