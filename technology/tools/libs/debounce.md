@@ -2,7 +2,7 @@
 title: 去抖动（Debounce）
 description: 用 JavaScript 实现 Debounce 功能
 published: true
-date: 2021-01-06T02:18:56.331Z
+date: 2021-01-08T03:37:04.878Z
 tags: javascript, tools, debounce
 editor: markdown
 dateCreated: 2021-01-05T08:10:04.873Z
@@ -28,7 +28,7 @@ dateCreated: 2021-01-05T08:10:04.873Z
 
 那么这个**重置计时器延迟调用**行为可以用 JavaScript 实现成下面的样子。
 
-```
+```js
 function debounce(func, wait = 50) {
   let timer = 0
   
@@ -47,7 +47,7 @@ function debounce(func, wait = 50) {
 
 具体使用时，下面的 `input` 事件绑定的回调函数是 `debounce(userAction)`，也就是 `debounce` 返回而未被执行的匿名函数，当 `input` 事件被浏览器感知并触发的时候，匿名函数被调用，延迟计时器重置成功。
 
-```
+```js
 function userAction() {
 	console.log('被扼制的疯狂输入')
 }
@@ -79,7 +79,7 @@ input.addEventListener('input', debounce(userAction))
 
 首先为解决上一小节发现的第一次调用不能马上执行问题，可以在入口处做是否可以调用的判断，为了能够计算从上一次调用到现在已经流逝的时间，判断前做时间戳打点作为参数传入。
 
-```
+```js
   function debounced(...args) {
     const time = Date.now()
     const isInvoking = shouldInvoke(time)
@@ -90,7 +90,7 @@ input.addEventListener('input', debounce(userAction))
 
 这个 `shouldInvoke` 功能返回是否可以调用的标识，我们来完成是否允许第一次调用的判断。
 
-```
+```js
   function shouldInvoke(time) {
     return (lastCallTime === undefined)
   }
@@ -100,7 +100,7 @@ input.addEventListener('input', debounce(userAction))
 
 接着考虑正常情况，当距离产生上一次调用发生的时间段超出了我们设置的默认间隔，也应该让下一次调用得以执行，因此继续完善该条件。
 
-```
+```js
   function shouldInvoke(time) {
     const timeSinceLastCall = time - lastCallTime
 
@@ -110,7 +110,7 @@ input.addEventListener('input', debounce(userAction))
 
 到这里为止，允许调用的条件已经可以应付大部分场景了，不过 lodash 多考虑了系统获取时间戳倒退的异常行为。
 
-```
+```js
   function shouldInvoke(time) {
     const timeSinceLastCall = time - lastCallTime
 
@@ -134,7 +134,7 @@ Lodash 同样提供了用于指定调用产生的时间点参数 `options.leadin
 
 下面的代码，让我们先忽略掉新增的一些变量，提前搞懂这些变量的含义并没有任何帮助。
 
-```
+```js
 function debounce(func, wait, options) {
   let timerId,
       lastCallTime
@@ -164,7 +164,7 @@ function debounce(func, wait, options) {
 
 当通过了是否调用的限制 `shouldInvoke` 后，我们需要通过判断是否存在一个已经在等待的调用计时，这跟我们最早实现的 `if (timer)` 保持一致，接着回到我们的问题中来，实现一个 `leadingEdge` 功能，用以处理**调用序列开始或结束**的时候立即执行的情况。
 
-```
+```js
   function invokeFunc(time) {
     lastInvokeTime = time
     result = func.apply(thisArg, args)
@@ -187,7 +187,7 @@ function debounce(func, wait, options) {
 
 那我们就来实现上一节逻辑中出现但没有解释的 `timerExpired` 函数，用以解决计算真实等待时间的问题。
 
-```
+```js
   function remainingWait(time) {
     const timeSinceLastCall = time - lastCallTime
     const timeWaiting = wait - timeSinceLastCall
@@ -208,7 +208,7 @@ function debounce(func, wait, options) {
 
 来到这里，我们的 `debounce` 已经相对完善，不仅可以正确的处理调用序列的触发时间点，而且能够处理第一次调用的立即执行，最后还可以从体验上动态的计算用户每次触发交互还需要继续等待的延迟时间，看起来一切都已经很完备了，不过 Lodash 依然添加了一些外部功能以便于更加精确的控制去抖动场景。
 
-```
+```js
 function debounce(func, wait, options) {
   let timerId,
       lastCallTime
