@@ -2,7 +2,7 @@
 title: Docker 应用和原理
 description: 使用容器化技术搭建微服务
 published: true
-date: 2021-01-08T03:44:29.948Z
+date: 2021-01-08T08:00:00.378Z
 tags: docker
 editor: markdown
 dateCreated: 2020-12-10T17:21:10.697Z
@@ -943,22 +943,22 @@ $ docker login foobar.com:5000
 
 4. 使用 Compose file 管理部署
   我们可以把第 3 步以 `docker-compose.yml` 文件形式配置化。
-  ```bash
+  ```yaml
   registry:
-  restart: always
-  image: registry:2
-  ports:
-    - 5000:5000
-  environment:
-    REGISTRY_HTTP_TLS_CERTIFICATE: /certs/foobar.com.crt
-    REGISTRY_HTTP_TLS_KEY: /certs/foobar.com.key
-    REGISTRY_AUTH: htpasswd
-    REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
-    REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
-  volumes:
-    - /path/data:/var/lib/registry
-    - /path/certs:/certs
-    - /path/auth:/auth
+    restart: always
+    image: registry:2
+    ports:
+      - 5000:5000
+    environment:
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/foobar.com.crt
+      REGISTRY_HTTP_TLS_KEY: /certs/foobar.com.key
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+    volumes:
+      - /path/data:/var/lib/registry
+      - /path/certs:/certs
+      - /path/auth:/auth
   ```
   
   然后使用 `docker-compose` 命令部署。
