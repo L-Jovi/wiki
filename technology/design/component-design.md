@@ -2,7 +2,7 @@
 title: 组件设计原则
 description: 在搭建前端公共组件库时的组件规范化思考与总结
 published: true
-date: 2021-01-06T13:06:53.491Z
+date: 2021-01-08T03:50:21.580Z
 tags: componentization
 editor: markdown
 dateCreated: 2020-12-20T10:10:38.892Z
@@ -86,24 +86,24 @@ dateCreated: 2020-12-20T10:10:38.892Z
 	
 建议 prop 的类型为基本数据（例如，string 、 number 、boolean）：
 
-```
+```jsx
 	<Message text="Hello world!" modal={false} />;
 ```
 必要时，使用复杂的数据结构，如对象或数组：
 
-```
+```jsx
 	<MoviesList items={['Batman Begins', 'Blade Runner']} />
 ```
 
 prop 可以是一个事件处理函数和异步函数：
 
-```
+```jsx
 	<input type="text" onChange={handleChange} />
 ```
 
 prop 甚至可以是一个组件构造函数。组件可以处理其他组件的实例化：
 
-```
+```jsx
 	function If({ component: Component, condition }) {
 	    return condition ? <Component /> : null;
 	}
