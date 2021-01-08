@@ -2,7 +2,7 @@
 title: AutoSSH
 description: 提供反向代理服务并解决 SSH 超时断开连接的问题
 published: true
-date: 2021-01-01T16:06:18.531Z
+date: 2021-01-08T03:45:07.844Z
 tags: network, autossh
 editor: markdown
 dateCreated: 2020-11-30T15:00:22.007Z
@@ -30,7 +30,7 @@ SSH 提供了 `-R` 和 `-L` 可以绑定某台线上节点的端口到本地任�
 
 在 Ubuntu 操作系统下可以直接使用 `apt` 包管理安装。
 
-```
+```bash
 apt-get install -y autossh
 ```
 
@@ -40,7 +40,7 @@ apt-get install -y autossh
 
 前往 https://www.harding.motd.ca/autossh/ 完成下载。
 
-```
+```bash
 gunzip -c autossh-1.4e.tgz | tar xvf -
 cd autossh-1.4e
 ./configure
@@ -59,7 +59,7 @@ autossh -M [remote_port] -fCNR [port]:localhost:[port] [user_name]@[ip_address]
 
 假定你已经拥有一台远端主机 `foobar.com`，使用上面的格式，我们可以把该远程主机的 3000 端口绑定到本地运行着 Minecraft 服务的 25565 端口。
 
-```
+```bash
 autossh -M 3001 -fCNR 3000:localhost:25565 root@foobar.com
 ```
 
@@ -80,7 +80,7 @@ autossh -M 3001 -fCNR 3000:localhost:25565 root@foobar.com
 
 `vi /etc/init/autossh.conf`
 
-```
+```bash
 #!/bin/bash
 
 while true
