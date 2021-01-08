@@ -2,7 +2,7 @@
 title: JavaScript 类型转换
 description: 其实也可以看成玄学
 published: true
-date: 2021-01-06T12:07:00.885Z
+date: 2021-01-08T03:45:51.048Z
 tags: javascript, type-system
 editor: markdown
 dateCreated: 2020-12-03T10:46:33.305Z
@@ -38,7 +38,7 @@ dateCreated: 2020-12-03T10:46:33.305Z
 - 如果一方不是字符串或者数字，那么会将它转换为数字或者字符串（若是对象，调用 `[[ToPrimitive]]` ）
 - `+a` 一个加号后跟非数字类型，直接转成数字（优先级最高））
 
-```
+```js
 1 + '1'     // '11'
 true + true     // 2
 4 + [1,2,3] // "41,2,3"
@@ -49,7 +49,7 @@ true + true     // 2
 ##### 除加法外
 - 只要其中一方是数字，那么另一方就会被转为数字
 
-```
+```js
 4 * '3' // 12
 4 * [] // 0
 4 * [1, 2] // NaN
@@ -66,14 +66,14 @@ true + true     // 2
 - 判断两者类型是否为 string 和 number，是的话就会将字符串转换为 number
 - 判断其中一方是否为 object 且另一方为 string、number 或者 symbol，是的话就会把 object 转为原始类型再进行判断
 
-```
+```js
 [] == ![] // true
 "" == ![] // true
 1 == ![] // false
 0 == ![] // true
 ```
 第一个式子计算过程：
-```
+```js
 [] == ![]
 [] == !true  // ! 操作符的优先级高于 == ，所以先执行 ! 操作
 [] == false  // !true 得到的是 false
