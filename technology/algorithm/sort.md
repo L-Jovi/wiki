@@ -2,7 +2,7 @@
 title: 常用排序算法总结
 description: 本文大部分内容为《大话数据结构》第九章的笔记，每个算法都附有笔者实现的 JavaScript 版本，暂供参考，后续会把笔记替换成总结输出。
 published: true
-date: 2020-12-30T03:07:49.034Z
+date: 2021-01-08T04:17:53.741Z
 tags: algorithm, sort
 editor: markdown
 dateCreated: 2020-12-05T15:39:16.357Z
@@ -40,7 +40,7 @@ dateCreated: 2020-12-05T15:39:16.357Z
 ## 9.2.3　排序用到的结构与函数
 
 为了讲清楚排序算法的代码，我先提供一个用于排序用的顺序表结构，此结构也将用于之后我们要讲的所有排序算法。
-```
+```c
 #define MAXSIZE 10       /* 用于要排序数组个数最大值，可根据需要修改 */
 typedef struct {      
     int r[MAXSIZE + 1];  /* 用于存储要排序数组，r[0] 用作哨兵或临时变量 */      
@@ -50,7 +50,7 @@ typedef struct {      
 
 另外，由于排序最最常用到的操作是数组两元素的交换，我们将它写成函数，在之后的讲解中会大量的用到。
 
-```
+```c
 /* 交换L中数组r的下标为i和j的值 */
 void swap ( SqList *L, int i, int j ) {
     int temp = L->r[i];
@@ -64,7 +64,7 @@ void swap ( SqList *L, int i, int j ) {
 ## 9.3.1　最简单排序实现
 冒泡排序（Bubble Sort）一种<u>交换排序</u>，它的基本思想是：两两比较相邻记录的关键字，如果反序则交换，直到没有反序的记录为止。
 
-```
+```c
 /* 对顺序表L作交换排序(冒泡排序初级版) */
 void BubbleSort0 ( SqList *L ) {
     int i, j;
@@ -79,7 +79,7 @@ void BubbleSort0 ( SqList *L ) {
 ```
 每次 i 锁定一位，j 就循环之后其余的与之对比，一次只能排序好一位。
 ## 9.3.2　冒泡排序算法
-```
+```c
 /* 对顺序表L作冒泡排序 */
 void BubbleSort ( SqList *L ) {
     int i, j;
@@ -99,7 +99,7 @@ void BubbleSort ( SqList *L ) {
 ## 9.3.3　冒泡排序优化
 
 增加一个标记变量 flag
-```
+```c
 /* 对顺序表L作改进冒泡算法 */
 void BubbleSort2 (SqList *L) {
     int i, j;
@@ -117,7 +117,7 @@ void BubbleSort2 (SqList *L) {
 }
 ```
 
-```
+```js
 /* 我的冒泡排序 JS 实现 */
 const bubbleSort = (arr) => {
     if (arr == null || arr.length < 2) {
@@ -151,7 +151,7 @@ const bubbleSort = (arr) => {
 ## 9.4.1　简单选择排序算法
 简单选择排序法（Simple Selection Sort）就是通过 n - i 次关键字间的比较，从 n - i ＋ 1 个记录中选出关键字最小的记录，并和第 i（1 ≤ i ≤ n）个记录交换之。
 
-```
+```c
 /* 对顺序表L作简单选择排序 */
 void SelectSort (SqList *L) {
     int i, j, min;
@@ -169,7 +169,7 @@ void SelectSort (SqList *L) {
 }
 ```
 
-```
+```js
 /* 我的选择排序 JS 实现 */
 const selectSort =  (arr) => {
     if (arr == null || arr.length < 2) {
@@ -201,7 +201,7 @@ const selectSort =  (arr) => {
 ## 9.5.1　直接插入排序算法
 直接插入排序（Straight Insertion Sort）的基本操作是将一个记录插入到已经排好序的有序表中，从而得到一个新的、记录数增 1 的有序表。
 
-```
+```c
 /* 对顺序表L作直接插入排序 */
 void InsertSort (SqList *L) {
     int i, j;
@@ -216,7 +216,8 @@ void InsertSort (SqList *L) {
     }
 }
 ```
-```
+
+```js
 /* 我的插入排序 JS 实现 */
 const insertSort = (arr) => {
     if (arr == null || arr.length < 2) {
@@ -251,7 +252,7 @@ const insertSort = (arr) => {
 需要采取跳跃分割的策略：<u>将相距某个“增量”的记录组成一个子序列</u>，这样才能保证在子序列内分别进行直接插入排序后得到的结果是基本有序而不是局部有序。
 
 ## 9.6.2　希尔排序算法
-```
+```c
 /* 对顺序表L作希尔排序 */
 void ShellSort(SqList *L) {
     int i, j;
@@ -274,7 +275,7 @@ void ShellSort(SqList *L) {
 }
 ```
 
-```
+```js
 // 我的 shell 排序实现
 const shellSort = (arr) => {
     let i, j, temp;
@@ -323,7 +324,7 @@ const shellSort = (arr) => {
 1.如何由一个无序序列构建成一个堆？
 2.如果在输出堆顶元素后，调整剩余元素成为一个新的堆？
 
-```
+```c
 /* 对顺序表L进行堆排序 */
 void HeapSort (SqList *L) {
     int i;
@@ -345,7 +346,7 @@ void HeapSort (SqList *L) {
 
 我们所谓的将待排序的序列构建成为一个大顶堆，其实就是从下往上、从右到左，将每个非终端结点（非叶结点）当作根结点，将其和其子树调整成大顶堆。
 
-```
+```c
 /* 已知L->r[s..m]中记录的关键字除L->r[s]之外均满足堆的定义 */
 /* 本函数调整L->r[s]的关键字，使L->r[s..m]成为一个大顶堆 */
 void HeapAdjust (SqList *L,int s,int m) {
@@ -363,7 +364,7 @@ void HeapAdjust (SqList *L,int s,int m) {
 }
 ```
 
-```
+```js
 // 我的堆排序 JS 实现
 const heapSort = (arr) => {
     let i;
@@ -414,13 +415,13 @@ const heapAdjust = (arr, s, m) => {
 ## 9.8.1 归并排序算法
 
 归并排序（Merging Sort）就是利用归并的思想实现的排序方法。它的原理是假设初始序列含有n个记录，则可以看成是n个有序的子序列，每个子序列的长度为1，然后两两归并，得到|n/2|（|x|表示不小于x的最小整数）个长度为2或1的有序子序列；再两两归并，……，如此重复，直至得到一个长度为n的有序序列为止，这种排序方法称为2路归并排序。
-```
+```c
 /* 对顺序表L作归并排序 */
 void MergeSort(SqList *L) {
     MSort(L->r, L->r, 1, L->length);
 }
 ```
-```
+```c
 /* 将SR[s..t]归并排序为TR1[s..t] */
 void MSort(int SR[], int TR1[], int s, int t) {
     int m;
@@ -435,7 +436,7 @@ void MSort(int SR[], int TR1[], int s, int t) {
     }
 }
 ```
-```
+```c
 /* 将有序的SR[i..m]和SR[m+1..n]归并为有序的TR[i..n] */
 void Merge(int SR[], int TR[], int i, int m, int n) {
     int j, k, l;
@@ -455,7 +456,7 @@ void Merge(int SR[], int TR[], int i, int m, int n) {
     }
 }
 ```
-```
+```js
 // 我的 JS 归并排序实现
 const mergeSort = (arr) => {
     MSort(arr, arr, 0, arr.length - 1);
@@ -512,7 +513,7 @@ const Merge = (SR, TR, i, m, n) => {
 ## 9.8.3 非递归实现归并排序
 
 将递归转化成迭代。
-```
+```c
 /* 对顺序表L作归并【非递归】排序 */
 void MergeSort2(SqList *L) {
     int * TR = (int *)malloc(L->length * sizeof(int));  /* 申请额外空间 */
@@ -525,7 +526,7 @@ void MergeSort2(SqList *L) {
     }
 }
 ```
-```
+```c
 /* 将SR[]中相邻长度为s的子序列两两归并到TR[] */
 /* k 为间隔 */
 void MergePass(int SR[], int TR[], int k, int n) {
@@ -542,7 +543,7 @@ void MergePass(int SR[], int TR[], int k, int n) {
             TR[j] = SR[j];
 }
 ```
-```
+```js
 // 我的归并排序【非递归】JS 实现
 const mergeSort2 = (arr) => {
     let k = 1; // k 为间隔
@@ -580,7 +581,7 @@ const mergePass = (SR, TR, k) => {
 ## 9.9.1 快速排序算法
 快速排序（Quick Sort）的基本思想是：
 通过一趟排序将待排记录分割成独立的两部分，其中一部分记录的关键字均比另一部分记录的关键字小，则可分别对这两部分记录继续进行排序，以达到整个序列有序的目的。
-```
+```c
 /* 对顺序表L作快速排序 */
 void QuickSort(SqList *L) {
     QSort(L, 1, L->length);    // 需递归调用，所以封装了一个函数
@@ -599,7 +600,7 @@ void QSort(SqList *L, int low, int high) {
 ```
 这一段代码的核心是“pivot=Parti-tion(L,low,high);”
 Partition函数要做的，就是先选取当中的一个关键字，然后想尽办法将它放到一个位置，使得它左边的值都比它小，右边的值比它大，我们将这样的关键字称为枢轴（pivot）。
-```
+```c
 /* 交换顺序表L中子表的记录，使枢轴记录到位，并返回其所在位置 */
 /* 此时在它之前（后）的记录均不大（小）于它。 */
 int Partition(SqList *L, int low, int high) {
@@ -645,7 +646,7 @@ T(n) ≤ nT(1) + (log2n) × n = O(nlogn)
 ## 9.9.3 快速排序优化
 ### 1. 优化选取枢轴
 我们来看看取左端、右端和中间三个数的实现代码，在Partition函数代码的第3行与第4行之间增加这样一段代码。
-```
+```c
 int pivotkey;
 
 int m = low + (high - low) / 2;    /* 计算数组中间的元素的下标 */
@@ -662,7 +663,7 @@ pivotkey = L->r[low];              /*用子表的第一个记录
 
 ### 2．优化不必要的交换
 观察数组{50,10,90,30,70,40,80,60,20}用上面的快排，发现50这个关键字，其位置变化是1→9→3→6→5，可其实它的最终目标就是5，当中的交换其实是不需要的。因此对Partition函数优化。
-```
+```c
 /* 快速排序优化算法 */
 int Partition1(SqList *L, int low, int high) {
     int pivotkey;
@@ -687,7 +688,7 @@ int Partition1(SqList *L, int low, int high) {
 
 如果数组非常小，其实快速排序反而不如直接插入排序来得更好（直接插入是简单排序中性能最好的）。其原因在于快速排序用到了<u>递归操作</u>，在大量数据排序时，这点性能影响相对于它的整体算法优势而言是可以忽略的，但如果数组只有几个记录需要排序时，这就成了一个大炮打蚊子的大问题。因此我们需要改进一下QSort函数。
 
-```
+```c
 #define MAX_LENGTH_INSERT_SORT 7                    /* 数组长度阀值 */
 /* 对顺序表L中的子序列L.r[low..high]作快速排序 */
 void QSort(SqList &L, int low, int high) {
@@ -708,7 +709,7 @@ void QSort(SqList &L, int low, int high) {
 若待排序的序列划分极端不平衡，递归的深度将趋近于 n，而不是 log2n，既慢，又占用栈的空间，所以想办法减少递归。
 
 于是我们对QSort实施尾递归优化。
-```
+```c
 /* 对顺序表L中的子序列L.r[low..high]作快速排序 */
 void QSort1(SqList *L, int low, int high) {
     int pivot;
@@ -725,7 +726,7 @@ void QSort1(SqList *L, int low, int high) {
 ```
 当我们将if改成while后（见！代码部分），因为第一次递归以后，变量low就没有用处了，所以可以将pivot+1赋值给low，再循环后，来一次Partition(L,low,high)，其效果等同于“QSort(L,pivot+1,high);”。结果相同，但因采用迭代而不是递归的方法可以缩减堆栈深度，从而提高了整体性能。
 
-```
+```js
 // 我的 JS 快速排序实现（包含优化点）
 const quickSort = (arr) => {
     QSort(arr, 0, arr.length - 1);
