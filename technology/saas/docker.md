@@ -2,7 +2,7 @@
 title: Docker 应用和原理
 description: 使用容器化技术搭建微服务
 published: true
-date: 2021-01-05T02:18:06.315Z
+date: 2021-01-08T03:44:29.948Z
 tags: docker
 editor: markdown
 dateCreated: 2020-12-10T17:21:10.697Z
@@ -31,7 +31,7 @@ Ubuntu 下我们使用 `apt-get` 作为安装工具直接获取 Docker 的二进
 ### 安装前的工作
 
 1. 更新 `apt` 索引源并安装前提依赖。
-```
+```bash
 $ apt-get update
 
 $ apt-get install \
@@ -43,11 +43,11 @@ $ apt-get install \
 ```
 
 2. 添加 Docker 的官方 GPG 秘钥。
-```
+```bash
 $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 ```
 验证指纹秘钥是否正确，通过下面的命令搜索 `9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88` 是否匹配。
-```
+```bash
 $ apt-key fingerprint 0EBFCD88
 
 pub   rsa4096 2017-02-22 [SCEA]
@@ -57,7 +57,7 @@ sub   rsa4096 2017-02-22 [S]
 ```
 
 3. 设置源
-```
+```bash
 $ add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
    $(lsb_release -cs) \
@@ -68,7 +68,7 @@ $ add-apt-repository \
 
 完成上面的预处理工作后，直接运行下面的命令开始正式安装 Docker。
 
-```
+```bash
 $ apt-get update
 $ apt-get install docker-ce docker-ce-cli containerd.io
 ```
@@ -77,7 +77,7 @@ $ apt-get install docker-ce docker-ce-cli containerd.io
 
 安装成功后，先确认其版本（这一步可以作为命令行正常工作的测试证明）。
 
-```
+```bash
 $ docker --version
 Docker version 19.03.13, build 4484c46d9d
 ```
@@ -117,7 +117,7 @@ Docker 采用客户端 - 服务端架构设计，这表示它会实现一个命�
 ### 运行容器
 
 1. 首先从一个名为 `ubuntu` 的镜像开始运行容器。
-```
+```bash
 $ docker run -i -t ubuntu /bin/bash
 
 Unable to find image 'ubuntu:latest' locally
@@ -135,7 +135,7 @@ root@8e4765ca5c0e:/#
 
 2. 查看已经下载到本地的镜像。
 重新启动一个新的 Terminal，我们可以通过下面的命令查看已经下载到本地的 `ubuntu:latest` 镜像。
-```
+```bash
 $ docker image ls
 
 REPOSITORY                                      TAG                 IMAGE ID            CREATED             SIZE
@@ -144,7 +144,7 @@ ubuntu                                          latest              f643c72bc252
 
 3. 查看已经运行的容器。
 通过下面的命令我们可以查看当前存在的容器列表，Docker 会为每个创建的容器分配独立的 `CONTAINER ID` 作为标识，也就是容器的 `hostname`。
-```
+```bash
 $ docker ps --all
 
 CONTAINER ID        IMAGE                                 COMMAND                  CREATED             STATUS                     PORTS                                                                                            NAMES
@@ -197,14 +197,14 @@ CONTAINER ID        IMAGE                                 COMMAND               
 
 我们使用 Docker 官方的示例[^7]去演示如何构建自己的镜像，首先通过 Git 获取到官方的示例仓库。
 
-```
+```bash
 $ git clone https://github.com/dockersamples/node-bulletin-board
 $ cd node-bulletin-board/bulletin-board-app
 ```
 
 可以看到该目录下存在一个 `Dockerfile` 文件，这个文件描述了如何创建一个新的镜像。
 
-```
+```docker
 $ cat Dockerfile
 
 FROM node:current-slim
@@ -244,7 +244,7 @@ COPY . .
   
 理解了 `Dockerfile` 的内容后，我们使用下面的命令开始正式构建镜像。
 
-```
+```bash
 $ docker build --tag bulletinboard:1.0 .
 
 Sending build context to Docker daemon  45.57kB
@@ -264,7 +264,7 @@ Step 4/7 : RUN npm install
 
 最后通过下面的命令创建容器。
 
-```
+```bash
 $ docker run --publish 8000:8080 --detach --name bb bulletinboard:1.0
 ```
 
@@ -283,12 +283,12 @@ $ docker run --publish 8000:8080 --detach --name bb bulletinboard:1.0
 自定义的镜像创建成功后，可以通过上传到 Docker Hub 的方式分享，这样其他开发者可以通过 `docker pull` 获取到你的镜像，这有些像开源社区 Github 的运作方式。
 
 首先创建 [Docker Hub 的账号](https://hub.docker.com/signup) 并填写用户的 `Docker ID`，登录后先在本地做使用 `docker tag` 标签化将要上传的镜像（因为 Docker Hub 是以 `<Your Docker ID>/<Repository Name>:<tag>` 的格式识别不同用户名称空间下的镜像）。
-```
+```bash
 $ docker tag bulletinboard:1.0 <Your Docker ID>/bulletinboard:1.0
 ```
 
 然后就可以推送到 Docker Hub 了。
-```
+```bash
 $ docker push <Your Docker ID>/bulletinboard:1.0
 ```
 
@@ -314,19 +314,19 @@ volumes 是官方较为推荐的方式[^8]，因为其完全由 Docker 自行管
 
 1. 创建 volumes
   创建 volumes 可以简单指定名称即可，下面创建了一个名为 `my-vol` 的存储卷。
-  ```
+  ```bash
   $ docker volume create my-vol
   ```
   
 2. 列出所有的 volumes
-  ```
+  ```bash
   $ docker volume ls
 
 local               my-vol
   ```
   
 3. 查看某个 volumes 详细信息
-  ```
+  ```bash
   $ docker volume inspect my-vol
 [
     {
@@ -341,7 +341,7 @@ local               my-vol
   ```
   
 4. 移除某个 volumes
-  ```
+  ```bash
   $ docker volume rm my-vol
   ```
   
@@ -349,7 +349,7 @@ local               my-vol
 
 正常情况下，我们需要配合容器运行使用挂载卷。
 
-```
+```bash
 $ docker run -d \
   --name devtest \
   -v myvol2:/app \
@@ -369,12 +369,12 @@ $ docker run -d \
 
 一般生产环境下的服务数据会使用独立的备份脚本多点冗余备份，那么在 Docker volumes 中的数据也可以单独打包拷贝出来。
 
-```
+```bash
 $ docker run -v /dbdata --name dbstore ubuntu /bin/bash
 ```
 上述命令创建了一个匿名的挂载卷，映射容器 `dbstore` 中 `/dbdata` 路径下所有文件内容，下面我们会针对该目录下的内容做备份。
 
-```
+```bash
 $ docker run --rm --volumes-from dbstore -v $(pwd):/backup ubuntu tar cvf /backup/backup.tar /dbdata
 ```
 上述命令创建了一个新的容器，`--rm` 会在该容器退出后自动删除容器，不会保留为 `Exited` 状态。该容器会从名为 `dbstore` 的容器中共享同一份挂载卷，`--volumes-from` 会使 `dbstore` 容器中的挂载点 `/dbdata` 挂载于新容器的同样路径下。
@@ -385,12 +385,12 @@ $ docker run --rm --volumes-from dbstore -v $(pwd):/backup ubuntu tar cvf /backu
 
 承接上一小节，我们继续把备份数据 `backup.tar` 在新的容器中还原。
 
-```
+```bash
 $ docker run -v /dbdata --name dbstore2 ubuntu /bin/bash
 ```
 上述命令基于 `ubuntu` 镜像创建了名为 `dbstore2` 的容器，并且将 `dbdata` 映射在新的匿名挂载卷中。
 
-```
+```bash
 $ docker run --rm --volumes-from dbstore2 -v $(pwd):/backup ubuntu bash -c "cd /dbdata && tar xvf /backup/backup.tar --strip 1"
 ```
 接着生成一个退出后就会被回收的新容器，该容器共享了 `dbstore2` 的挂载点 `/dbdata`，同时映射宿主机当前路径到容器内的 `/backup` 中，因为映射关系建立，宿主机当前目录下的 `backup.tar` 会直接创建在当前容器中的 `/backup` 下。
@@ -430,7 +430,7 @@ Docker 通过几个不同的驱动[^10]管理网络模块。
 下面我们来熟悉下常用的网络操作，并通过默认的 `bridge` 驱动建立容器间通讯[^12]。
 
 1. 查看目前已经存在的网络列表
-```
+```bash
 $ docker network ls
 
 NETWORK ID          NAME                DRIVER              SCOPE
@@ -440,7 +440,7 @@ NETWORK ID          NAME                DRIVER              SCOPE
 ```
 
 2. 运行两个 `alpine` 容器
-```
+```bash
 $ docker run -dit --name alpine1 alpine ash
 
 $ docker run -dit --name alpine2 alpine ash
@@ -450,7 +450,7 @@ $ docker run -dit --name alpine2 alpine ash
 我们使用 `-dit` 的形式运行，会直接把交互式 `ash` 命令解释器等待输入的状态放到后台。
 
 3. 查看有哪些容器连接到了 bridge 网络中
-```
+```bash
 $ docker network inspect bridge
 
 [
@@ -506,7 +506,7 @@ $ docker network inspect bridge
 其中容器 `alpine1` 分配到的地址为 `172.17.0.2`，`alpine2` 分配到的地址为 `172.17.0.2`。
 
 4. 连接到容器中
-```
+```bash
 $ docker attach alpine1
 
 / #
@@ -515,7 +515,7 @@ $ docker attach alpine1
 
 接着查看容器内的网络信息。
 
-```
+```bash
 # ip addr show
 
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1
@@ -535,7 +535,7 @@ $ docker attach alpine1
 注意第二个网卡信息，`172.17.0.2` 和刚才我们使用 `docker network ls` 查看到的信息是一致的。
 
 5. 测试网络连通
-```
+```bash
 # ping -c 2 baidu.com
 
 PING google.com (172.217.3.174): 56 data bytes
@@ -549,7 +549,7 @@ round-trip min/avg/max = 9.841/9.869/9.897 ms
 我们通过 `ping -c 2` 发送两个数据包请求到 `baidu.com`，发现容器 `alpine1` 是可以连通到互联网的。
 
 6. 测试容器间连通
-```
+```bash
 # ping -c 2 alpine2
 
 ping: bad address 'alpine2'
@@ -560,12 +560,12 @@ ping: bad address 'alpine2'
 我们先从 `alpine1` 的容器环境中离开，按住 `CTRL`，然后连续输入 `p` 和 `q`，这样容器不会像 `CTRL` + `d` 一样退出，当前的运行状态可以继续保留在后台中。
 
 接着我们开始创建 bridge 网络吧。
-```
+```bash
 $ docker network create --driver bridge alpine-net
 ```
 
 创建成功后再次查看网络列表，发现已经自定义的 bridge 网络已经出现了。
-```
+```bash
 $ docker network ls
 
 NETWORK ID          NAME                DRIVER              SCOPE
@@ -574,7 +574,7 @@ e9261a8c9a19        alpine-net          bridge              local
 ```
 
 紧接着查看 `alpine-net` 的细节信息。
-```
+```bash
 $ docker network inspect alpine-net
 
 [
@@ -606,7 +606,7 @@ $ docker network inspect alpine-net
 注意网关信息 `IPAM.Config.Gateway` 为 `172.18.0.1`。
 
 8. 以自定义 bridge 模式运行容器
-```
+```bash
 $ docker run -dit --name alpine3 --network alpine-net alpine ash
 
 $ docker run -dit --name alpine4 --network alpine-net alpine ash
@@ -617,7 +617,7 @@ $ docker run -dit --name alpine6 --network alpine-net alpine ash
 ```
 
 新创建的容器都已经运行。
-```
+```bash
 $ docker container ls
 
 CONTAINER ID        IMAGE               COMMAND             CREATED              STATUS              PORTS               NAMES
@@ -628,7 +628,7 @@ a535d969081e        alpine              "ash"               About a minute ago  
 ```
 
 9. 查看 `alpine-net` 信息
-```
+```bash
 $ docker network inspect alpine-net
 
 [
@@ -682,7 +682,7 @@ $ docker network inspect alpine-net
 我们可以看到，`alpine3`、`alpine4` 和 `alpine6` 这三台容器已经都关联到了 `alpine-net` 网络中。
 
 10. 再次测试容器间网络连通
-```
+```bash
 $ docker container attach alpine3
 
 # ping -c 2 alpine4
@@ -751,26 +751,26 @@ Docker 通过更改 iptables 规则实现网络隔离[^13]。
 
 如果不希望手动修改，可以直接安装作者开源的 [ufw-docker 工具](https://github.com/chaifeng/ufw-docker#ufw-docker-%E5%B7%A5%E5%85%B7) 进行规则管理。
 
-```
+```bash
 wget -O /usr/local/bin/ufw-docker \
   https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
 chmod +x /usr/local/bin/ufw-docker
 ```
 
 然后直接通过命令修改上述 `/etc/ufw/after.rules` 文件。
-```
+```bash
 ufw-docker install
 ```
 
 安装成功后重启，我们发现之前的 Node.js 服务 8000 端口已经无法在外网访问了，符合预期。我们来使用 `ufw-docekr` 添加对该服务容器端口的放行规则。
 
-```
+```bash
 ufw-docker allow <container_name> 8080
 ```
 注意上面的命令会开放容器服务的 8080 端口，即为宿主机的 8000 端口，这样相比于 `ufw` 工具会同时开放宿主机和容器端口的行为而言更加合理。
 
 最后可以通过以下命令查看当前的防火墙规则。
-```
+```bash
 ufw-docker list <container_name>
 # or
 ufw status
@@ -809,7 +809,7 @@ Docker 提供一种可以存储和分发镜像的平台称为 Registry[^15]，�
 
 依赖官方开源提供的 `registry:2` 镜像，我们可以从中方便的运行容器服务。
 
-```
+```bash
 docker run -d -p 5000:5000 --name registry registry:2
 ```
 
@@ -817,13 +817,13 @@ docker run -d -p 5000:5000 --name registry registry:2
 
 先从 Docker Hub 拉取 ubuntu 的镜像到本地。
 
-```
+```bash
 docker pull ubuntu
 ```
 
 然后通过 `tag` 指令重命名本地的 ubuntu 镜像名称。
 
-```
+```bash
 docker image tag ubuntu localhost:5000/myfirstimage
 ```
 需要注意，上面命令中之所以重命名为 `localhost:5000` 的前缀是因为 Docker 对镜像的命名方式[^16]决定了镜像的拉取和推送标识方式均以 `<domain:port>/<image_owner_name>/<image_name>:<image_version>` 的格式展示。
@@ -831,12 +831,12 @@ docker image tag ubuntu localhost:5000/myfirstimage
 用 `docker pull ubuntu` 为例理解，其完整的命令为 `docker pull docker.io/library/ubuntu:latest`。
 
 重命名后，可以直接推送到私有镜像服务中。
-```
+```bash
 docker push localhost:5000/myfirstimage
 ```
 
 其他能够访问到该服务的客户端可以用类似的方式拉取该镜像。
-```
+```bash
 docker pull localhost:5000/myfirstimage
 ```
 
@@ -851,31 +851,31 @@ docker pull localhost:5000/myfirstimage
   
 2. 安装 letsencrypt
   因为 Let’s Encrypt 脚本依赖 Python 实现，而 Ubuntu 较新版本的操作系统都预装了 Python3，所以这里我们只需要安装 pip（Python 的包管理工具）。
-```
+```bash
 apt install -y python3-pip
 ```
 
 3. 生成私钥和证书
   `letsencrypt` 命令会提示你输入一个邮箱账号绑定 TLS 服务。
-```
+```bash
 letsencrypt certonly --standalone -d foobar.com
 ```
 成功后你会在操作系统下面的两个目录中找到证书文件和私钥文件。
-```
+```bash
 /etc/letsencrypt/live/foobar.com/fullchain.pem  # 证书
 /etc/letsencrypt/live/foobar.com/privkey.pem    # 私钥
 ```
 
 4. 映射证书和私钥文件到 Registry 服务。
 在你的项目目录下，创建一个存储证书和私钥用的新目录，并把相应的证书和私钥文件拷贝过来。
-```
+```bash
 mkdir certs
 cp /etc/letsencrypt/live/foobar.com/fullchain.pem certs/foobar.com.crt
 cp /etc/letsencrypt/live/foobar.com/privkey.pem certs/foobar.com.key
 ```
 
 然后重新运行 Registry 服务，并把 certs 目录映射到容器内部。
-```
+```bash
 $ docker run -d \
   --restart=always \
   --name registry \
@@ -890,14 +890,14 @@ $ docker run -d \
 
 5. 测试已经支持 TLS 的 Registry 私有镜像服务
 我们这里从 Docker Hub 拉取一个 `ubuntu:16.04` 镜像做测试，往私有镜像服务中推送。
-```
+```bash
 $ docker pull ubuntu:16.04
 $ docker tag ubuntu:16.04 foobar.com/my-ubuntu
 $ docker push foobar.com/my-ubuntu
 ```
 
 推送成功后，在另外的客户端重新获取。
-```
+```bash
 $ docker pull foobar.com/my-ubuntu
 ```
 
@@ -911,14 +911,14 @@ Docker 使用 Apache 工具 `htpasswd` 生成账户和密码做简单访问限�
 
 1. 生成账户和密码文件
   在项目中创建 `auth` 目录，运行 `htpasswd` 命令生成密码和关联的用户文件。
-```
+```bash
 mkdir auth
 htpasswd -Bbn testuser testpassword > auth/htpasswd
 ```
 
 2. 重新部署 Registry 服务
   这里为了便于下一步授权理解，我们改为 5000 端口启动容器。
-```
+```bash
 $ docker container stop registry
 
 $ docker run -d \
@@ -936,14 +936,14 @@ $ docker run -d \
 ```
 
 3. 登录授权
-```
+```bash
 $ docker login foobar.com:5000
 ```
 之后就可以如同往常步骤一样推送和拉取私有镜像了。
 
 4. 使用 Compose file 管理部署
   我们可以把第 3 步以 `docker-compose.yml` 文件形式配置化。
-  ```
+  ```bash
   registry:
   restart: always
   image: registry:2
@@ -962,7 +962,7 @@ $ docker login foobar.com:5000
   ```
   
   然后使用 `docker-compose` 命令部署。
-  ```
+  ```bash
   docker-compose up -d
   ```
 
@@ -1010,7 +1010,7 @@ $ man namespaces
 
 依赖 Go 实现下方[初步逻辑](https://youtu.be/HPuvDm8IC-4?t=609)，调用系统接口 `clone`，传入参数 `CLONE_NEWUTS` 可以实现主机名的隔离。
 
-```
+```go
 package main
 
 import (
@@ -1052,7 +1052,7 @@ func must(err error) {
 
 保存上方逻辑为 `main.go`，运行下面的命令编译执行 go 代码，使用 `/bin/bash` 作为 `clone` 接口新开进程的解释交互环境，在新进程的 Bash 环境中更改 `hostname`，然后退出当前会话，可以发现被更改的主机名无法影响到宿主机的 `hostname`，从而实现主机名的隔离。
 
-```
+```bash
 $ go run main.go run /bin/bash
 running [/bin/bash]
 # hostname
@@ -1071,7 +1071,7 @@ jovi.archer
 
 如果你使用过 `ps -ef` 命令查看当前操作系统运行的进程，就会发现下面两个特殊的进程。
 
-```
+```bash
 $ ps -ef
 UID        PID  PPID  C STIME TTY          TIME CMD
 root         1     0  0 22:05 ?        00:00:01 /sbin/init
@@ -1082,7 +1082,7 @@ root         2     0  0 22:05 ?        00:00:00 [kthreadd]
 
 如果你还使用过 `pstree` 指令，就可以看到一个非常形象的进程树打印在终端中，大致长这样。
 
-```
+```bash
 systemd─┬─accounts-daemon─┬─{gdbus}
         │                 └─{gmain}
         ├─acpid
@@ -1114,7 +1114,7 @@ systemd─┬─accounts-daemon─┬─{gdbus}
 
 那么 Docker 是如何实现与宿主机的进程隔离呢？我们对刚才的 Go 代码继续添加 namespaces 中提及的进程隔离所依赖的系统调用接口 `clone` 的 [`CLONE_NEWPID` 参数](https://youtu.be/HPuvDm8IC-4)，并新增一个 Child 进程方便观察结果。
 
-```
+```go
 package main
 
 import (
