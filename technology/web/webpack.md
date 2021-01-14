@@ -2,7 +2,7 @@
 title: Webpack 应用和原理
 description: 前端工程化构建和打包工具
 published: true
-date: 2021-01-14T11:30:35.392Z
+date: 2021-01-14T13:18:32.177Z
 tags: webpack
 editor: markdown
 dateCreated: 2021-01-11T15:39:33.917Z
@@ -161,19 +161,124 @@ $ npx webpack
 
 上一节我们实现的项目已经可以翻译 ES6 规范的逻辑到浏览器可以执行的主流 JavaScript，并将依赖的外部模块 Lodash 一并打包到最终的 `bundle.js` 中，但是真实的项目环境，我们还需要处理样式表和图片等诸多类型的资源文件。
 
+这一节我们针对该问题进行配置和处理，改动点可以参考项目 [`asset-management`](https://github.com/L-Jovi/latte-web/tree/master/build/webpack/asset-management)。
+
+在 `src` 目录中分别创建一个图片文件 [`icon.jpg`](https://github.com/L-Jovi/latte-web/blob/master/build/webpack/asset-management/src/icon.jpg)，一个 XML 文件 [`data.xml`](https://github.com/L-Jovi/latte-web/blob/master/build/webpack/asset-management/src/data.xml) 和一个 CSS 文件 [`style.css`](https://github.com/L-Jovi/latte-web/blob/master/build/webpack/asset-management/src/style.css)，然后改动 `src/index.js` 的逻辑。
+
+```js
+import _ from 'lodash'
+import './style.css'
+import Icon from './icon.jpg'
+import Data from './data.xml'
+
+function component() {
+  var element = document.createElement('div')
+
+  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+  element.classList.add('hello')
+
+  var myIcon = new Image()
+  myIcon.src = Icon
+
+  element.appendChild(myIcon)
+
+  console.log(Data)
+
+  return element
+}
+
+document.body.appendChild(component())
+```
+
+注意我们的样式文件中对 `.hello` 类名引入了上述图片作为背景图。
+
+```css
+.hello {
+  color: red;
+  background: url('./icon.jpg');
+}
+```
+
+你可能已经意识到了，我们一直使用 ES6 作为开发语言，而 Webpack 通过其模块[^5]功能可以对不同类型的文件和不同规范化的 JavaScript 语法做处理，即为 Webpack 视角的模块化支持，如果不依赖生态提供的模块能力，Webpack 原生就支持下面几种模块类型。
+
+- ECMAScript 模块
+- CommonJS 模块（Node.js 使用的模块系统）
+- AMD 模块
+- 资源文件
+- WebAssembly 模块
+
+本例中，还需要分别对上面添加的三种文件类型做 Webpack 配置处理，修改 `webpack.config.js` 通过 `module` 属性针对不同类型文件的正则表达式匹配并选择依赖对应的模块 loader 去处理。
+
+这里以 CSS 处理为例，Webpack 匹配到后缀为 `.css` 的文件时，发现需要处理的 loader 是多个，便会以**相反**的顺序链式调用，首先通过 `css-loader` 进行对 `index.js` 中 `import './style.css'` 引入的 CSS 文件进行编译（实际不会做什么处理），然后将输出的结果传递给下一个模块 `style-loader`，添加样式到最终的 HTML 模板 `<head>` 标签中。
+
+```js
+const path = require('path')
+
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+        ]
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: [
+          'file-loader',
+        ]
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: [
+          'file-loader',
+        ]
+      },
+      {
+        test: /\.(csv|tsv)$/,
+        use: [
+          'csv-loader'
+        ]
+      },
+      {
+        test: /\.xml$/,
+        use: [
+          'xml-loader'
+        ]
+      }
+    ]
+  }
+}
+```
+
+最后在 `package.json` 同层级的目录中安装上述模块处理依赖。
+
+```
+yarn add style-loader css-loader file-loader csv-loader xml-loader -D
+```
+
 ## 输出管理
 
 ## 代码切分
 
 ## 缓存
 
-## 热模块替换
+## 热模块替换（HMR）
 
 ## 代码裁剪
 
 ## 填充
 
 ## 插件
+
+## DLL
 
 # Webpack 原理
 
@@ -185,3 +290,4 @@ $ npx webpack
 [^2]: [Understanding (all) JavaScript module formats and tools](https://weblogs.asp.net/dixin/understanding-all-javascript-module-formats-and-tools)
 [^3]: [ECMAScript - Wikipedia](https://en.wikipedia.org/wiki/ECMAScript)
 [^4]: [Getting Started | webpack](https://webpack.js.org/guides/getting-started/)
+[^5]: [Modules | webpack](https://webpack.js.org/concepts/modules/#what-is-a-webpack-module)
