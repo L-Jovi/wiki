@@ -2,7 +2,7 @@
 title: Webpack 应用和原理
 description: 前端工程化构建和打包工具
 published: true
-date: 2021-01-14T13:19:10.233Z
+date: 2021-01-14T13:20:12.470Z
 tags: webpack
 editor: markdown
 dateCreated: 2021-01-11T15:39:33.917Z
@@ -258,7 +258,7 @@ module.exports = {
 }
 ```
 
-最后在 `package.json` 同层级的目录中安装上述模块处理依赖。
+最后在 `package.json` 同层级的目录中安装上述模块处理依赖，成功后再次执行 `npx webpack` 就可以看到 `dist` 中输出的结果了。
 
 ```
 yarn add style-loader css-loader file-loader csv-loader xml-loader -D
