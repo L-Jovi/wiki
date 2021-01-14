@@ -2,7 +2,7 @@
 title: Webpack 应用和原理
 description: 前端工程化构建和打包工具
 published: true
-date: 2021-01-14T13:18:32.177Z
+date: 2021-01-14T13:19:10.233Z
 tags: webpack
 editor: markdown
 dateCreated: 2021-01-11T15:39:33.917Z
@@ -209,7 +209,7 @@ document.body.appendChild(component())
 
 本例中，还需要分别对上面添加的三种文件类型做 Webpack 配置处理，修改 `webpack.config.js` 通过 `module` 属性针对不同类型文件的正则表达式匹配并选择依赖对应的模块 loader 去处理。
 
-这里以 CSS 处理为例，Webpack 匹配到后缀为 `.css` 的文件时，发现需要处理的 loader 是多个，便会以**相反**的顺序链式调用，首先通过 `css-loader` 进行对 `index.js` 中 `import './style.css'` 引入的 CSS 文件进行编译（实际不会做什么处理），然后将输出的结果传递给下一个模块 `style-loader`，添加样式到最终的 HTML 模板 `<head>` 标签中。
+这里以 CSS 处理为例，Webpack 匹配到后缀为 `.css` 的文件时，发现需要处理的 loader 是多个，便会以**相反**的顺序链式调用，首先通过 `css-loader` 对 `index.js` 中 `import './style.css'` 引入的 CSS 文件进行编译，然后将输出的结果传递给下一个模块 `style-loader`，添加样式到最终的 HTML 模板 `<head>` 标签中。
 
 ```js
 const path = require('path')
