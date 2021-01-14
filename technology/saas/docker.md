@@ -2,7 +2,7 @@
 title: Docker 应用和原理
 description: 使用容器化技术搭建微服务
 published: true
-date: 2021-01-08T08:00:00.378Z
+date: 2021-01-14T07:34:42.789Z
 tags: docker
 editor: markdown
 dateCreated: 2020-12-10T17:21:10.697Z
@@ -971,6 +971,8 @@ $ docker login foobar.com:5000
 > 本小节内容等待进一步完善
 {.is-warning}
 
+## 图形界面服务
+
 ## 监控
 
 > 本小节内容等待进一步完善
@@ -1078,7 +1080,7 @@ root         1     0  0 22:05 ?        00:00:01 /sbin/init
 root         2     0  0 22:05 ?        00:00:00 [kthreadd]
 ```
 
-其中一个是 PID 为 1 的 `/sbin/init` 进程，该进程会执行系统初始化任务，另一个 `/kthreadd` 进程会调度其他内核进程。
+其中一个是 PID 为 1 的 `/sbin/init` 进程，该进程会执行系统初始化任务，另一个 `kthreadd` 进程会调度其他内核进程。
 
 如果你还使用过 `pstree` 指令，就可以看到一个非常形象的进程树打印在终端中，大致长这样。
 
@@ -1112,7 +1114,7 @@ systemd─┬─accounts-daemon─┬─{gdbus}
 ```
 可以留意到，所有进程都被系统服务管理器 systemd 启动，其中 containerd 就是 Docker 产生的进程名，而所有的容器示例，都被名为 containerd-shim 的进程管理，与宿主机的进程隔离。
 
-那么 Docker 是如何实现与宿主机的进程隔离呢？我们对刚才的 Go 代码继续添加 namespaces 中提及的进程隔离所依赖的系统调用接口 `clone` 的 [`CLONE_NEWPID` 参数](https://youtu.be/HPuvDm8IC-4)，并新增一个 Child 进程方便观察结果。
+那么 Docker 是如何实现与宿主机的进程隔离呢？我们对刚才的 Go 代码继续添加 namespaces 中提及的进程隔离所依赖的系统调用接口 `clone` 的 [`CLONE_NEWPID`](https://youtu.be/HPuvDm8IC-4?t=670) 参数，并新增一个 Child 进程方便观察结果。
 
 ```go
 package main
