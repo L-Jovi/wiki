@@ -2,7 +2,7 @@
 title: Webpack 应用和原理
 description: 前端工程化构建和打包工具
 published: true
-date: 2021-01-14T13:27:13.089Z
+date: 2021-01-14T13:44:43.084Z
 tags: webpack
 editor: markdown
 dateCreated: 2021-01-11T15:39:33.917Z
@@ -267,6 +267,68 @@ yarn add style-loader css-loader file-loader csv-loader xml-loader -D
 ```
 
 ## 输出管理
+
+虽然到目前为止，我们已经可以处理项目中引入的不同类型文件和资源，但是随着项目体量的增长，不可能永远都是一个 `index.js` 经过打包后生成 `bundle.js` 包揽一切，会有更多的模块和依赖被引入，这个时候，就需要将代码模块进行拆分。
+
+我们将这种拆分行为称为输出管理，本节改动点可以参考 [`output-management`](https://github.com/L-Jovi/latte-web/tree/master/build/webpack/output-management)。
+
+为了模拟增加的入口引用模块，我们修改 `src/index.js` 为：
+
+```js
+import _ from 'lodash'
+import printMe from './print.js'
+
+function component() {
+  var element = document.createElement('div')
+  var btn = document.createElement('button')
+
+  element.innerHTML = _.join(['Hello', 'webpack'], ' ')
+
+  btn.innerHTML = 'Click me and check the console!'
+  btn.onclick = printMe
+
+  element.appendChild(btn)
+
+  return element
+}
+
+document.body.appendChild(component())
+```
+
+这样，不仅有从第三方依赖的 Lodash 模块，又多出来了我们自己实现的本地模块 `print.js`，这里我们简单提供一个打印功能即可。
+
+```js
+export default function printMe() {
+  console.log('I get called from print.js!')
+}
+```
+
+到上一节为止，我们都是在打包后的输出目录 `dist` 中放置一个手动维护的 `index.html` 模板，现在我们让这个流程也被 Webpack 管理起来，每次打包前先清理 `dist` 中所有现存的文件，然后通过插件生成 HTML 模板关联 Webpack 最终编译的所有输出结果。
+
+```js
+const path = require('path')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+module.exports = {
+  entry: {
+    app: './src/index.js',
+    print: './src/print.js',
+  },
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  },
+  plugins: [
+    new CleanWebpackPlugin(['dist']),
+    new HtmlWebpackPlugin({
+      title: 'Output Management'
+    })
+  ]
+}
+```
+
+需要注意，Webpack 通过 `plugins` 属性控制在编译的不同生命周期适时调用对应的插件，与模块不同，这里的调用是顺序进行，即为先依赖 `clean-webpack-plugin` 清理 `dist` 下的现存内容，然后调用 `html-webpack-plugin` 生成 HTML 模板关联项目依赖。
 
 ## 代码切分
 
