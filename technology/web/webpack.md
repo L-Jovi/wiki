@@ -2,7 +2,7 @@
 title: Webpack 应用和原理
 description: 前端工程化构建和打包工具
 published: true
-date: 2021-01-14T13:20:12.470Z
+date: 2021-01-14T13:21:08.709Z
 tags: webpack
 editor: markdown
 dateCreated: 2021-01-11T15:39:33.917Z
@@ -107,15 +107,17 @@ npm install --save lodash
 ```
 
 ```js
-import _ from 'lodash';
+import _ from 'lodash'
 
 function component() {
-  const element = document.createElement('div');
-  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-  return element;
+  var element = document.createElement('div')
+
+  element.innerHTML = _.join(['Hello', 'Webpack'], ' ')
+
+  return element
 }
 
-document.body.appendChild(component());
+document.body.appendChild(component())
 ```
 
 虽然 Webpack 4 开始就支持无配置执行，为便于后面的功能迭代，我们继续添加配置 `webpack.config.js` 的内容。
