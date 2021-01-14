@@ -2,7 +2,7 @@
 title: Webpack 应用和原理
 description: 前端工程化构建和打包工具
 published: true
-date: 2021-01-14T13:46:42.868Z
+date: 2021-01-14T13:58:31.252Z
 tags: webpack
 editor: markdown
 dateCreated: 2021-01-11T15:39:33.917Z
@@ -303,11 +303,11 @@ export default function printMe() {
 }
 ```
 
-到上一节为止，我们都是在打包后的输出目录 `dist` 中放置一个手动维护的 `index.html` 模板，现在我们让这个流程也被 Webpack 管理起来，每次打包前先清理 `dist` 中所有现存的文件，然后通过插件生成 HTML 模板关联 Webpack 最终编译的所有输出结果。
+到上一节为止，我们都是在打包后的输出目录 `dist` 中放置一个手动维护的 `index.html` 模板，现在我们让这个流程也被 Webpack 管理起来，每次打包前先清理输出目录 `dist` 中所有现存的文件，然后通过插件生成 HTML 模板关联 Webpack 最终编译的所有输出结果。
 
 ```js
 const path = require('path')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
@@ -315,12 +315,14 @@ module.exports = {
     app: './src/index.js',
     print: './src/print.js',
   },
+
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
+
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: 'Output Management'
     })
