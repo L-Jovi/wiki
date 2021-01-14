@@ -2,7 +2,7 @@
 title: Webpack 应用和原理
 description: 前端工程化构建和打包工具
 published: true
-date: 2021-01-14T13:44:43.084Z
+date: 2021-01-14T13:46:42.868Z
 tags: webpack
 editor: markdown
 dateCreated: 2021-01-11T15:39:33.917Z
@@ -329,6 +329,8 @@ module.exports = {
 ```
 
 需要注意，Webpack 通过 `plugins` 属性控制在编译的不同生命周期适时调用对应的插件，与模块不同，这里的调用是顺序进行，即为先依赖 `clean-webpack-plugin` 清理 `dist` 下的现存内容，然后调用 `html-webpack-plugin` 生成 HTML 模板关联项目依赖。
+
+自行在外层目录安装本节新增的依赖到 `package.json`，然后运行 `npx webpack`，观察 `dist` 中的 HTML 文件，至此输出目录中的所有文件都已经被 Webpack 打包流程所管理。
 
 ## 代码切分
 
