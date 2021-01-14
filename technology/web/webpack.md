@@ -2,7 +2,7 @@
 title: Webpack 应用和原理
 description: 前端工程化构建和打包工具
 published: true
-date: 2021-01-14T13:21:08.709Z
+date: 2021-01-14T13:23:48.740Z
 tags: webpack
 editor: markdown
 dateCreated: 2021-01-11T15:39:33.917Z
@@ -122,9 +122,9 @@ document.body.appendChild(component())
 
 虽然 Webpack 4 开始就支持无配置执行，为便于后面的功能迭代，我们继续添加配置 `webpack.config.js` 的内容。
 
-下面的配置内容会使 Webpack 从 `./src/index.js` 开始作为项目入口开始寻找所有与此文件相关联的依赖，然后将 `src/index.js` 中的 ES6 规范逻辑转换为主流浏览器可以执行的 JavaScript 并输出到 `dist/bundle.js`。
+下面的配置内容会使 Webpack 从 `src/index.js` 开始作为项目入口开始寻找所有与此文件相关联的依赖，然后将其中的 ES6 规范逻辑转换为主流浏览器可以执行的 JavaScript 并输出到 `dist/bundle.js`。
 
-```
+```js
 const path = require('path')
 
 module.exports = {
@@ -161,9 +161,9 @@ $ npx webpack
 
 ## 资源管理
 
-上一节我们实现的项目已经可以翻译 ES6 规范的逻辑到浏览器可以执行的主流 JavaScript，并将依赖的外部模块 Lodash 一并打包到最终的 `bundle.js` 中，但是真实的项目环境，我们还需要处理样式表和图片等诸多类型的资源文件。
+上一节我们实现的项目已经可以处理 ES6 规范的逻辑到浏览器可以执行的主流 JavaScript，并将依赖的外部模块 Lodash 一并打包到最终的 `bundle.js` 中，但是真实的项目环境，我们还需要处理样式表和图片等诸多类型的资源文件。
 
-这一节我们针对该问题进行配置和处理，改动点可以参考项目 [`asset-management`](https://github.com/L-Jovi/latte-web/tree/master/build/webpack/asset-management)。
+这一节我们针对该问题进行配置和处理，改动点可以参考 [`asset-management`](https://github.com/L-Jovi/latte-web/tree/master/build/webpack/asset-management)。
 
 在 `src` 目录中分别创建一个图片文件 [`icon.jpg`](https://github.com/L-Jovi/latte-web/blob/master/build/webpack/asset-management/src/icon.jpg)，一个 XML 文件 [`data.xml`](https://github.com/L-Jovi/latte-web/blob/master/build/webpack/asset-management/src/data.xml) 和一个 CSS 文件 [`style.css`](https://github.com/L-Jovi/latte-web/blob/master/build/webpack/asset-management/src/style.css)，然后改动 `src/index.js` 的逻辑。
 
