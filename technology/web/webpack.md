@@ -2,7 +2,7 @@
 title: Webpack 应用和原理
 description: 前端工程化构建和打包工具
 published: true
-date: 2021-01-14T13:58:31.252Z
+date: 2021-01-14T14:05:57.042Z
 tags: webpack
 editor: markdown
 dateCreated: 2021-01-11T15:39:33.917Z
@@ -268,7 +268,7 @@ yarn add style-loader css-loader file-loader csv-loader xml-loader -D
 
 ## 输出管理
 
-虽然到目前为止，我们已经可以处理项目中引入的不同类型文件和资源，但是随着项目体量的增长，不可能永远都是一个 `index.js` 经过打包后生成 `bundle.js` 包揽一切，会有更多的模块和依赖被引入，这个时候，就需要将代码模块进行拆分。
+虽然到目前为止，我们已经可以处理项目中引入的不同类型文件和资源，但是随着项目体量的增长，不可能永远都是一个 `src/index.js` 经过打包后生成 `dist/bundle.js` 包揽一切，会有更多的模块和依赖被引入，这个时候，就需要将代码模块进行拆分。
 
 我们将这种拆分行为称为输出管理，本节改动点可以参考 [`output-management`](https://github.com/L-Jovi/latte-web/tree/master/build/webpack/output-management)。
 
@@ -295,7 +295,7 @@ function component() {
 document.body.appendChild(component())
 ```
 
-这样，不仅有从第三方依赖的 Lodash 模块，又多出来了我们自己实现的本地模块 `print.js`，这里我们简单提供一个打印功能即可。
+这样，不仅有从第三方依赖的 Lodash 模块，又多出来了我们自己实现的本地模块 `src/print.js`，这里我们简单提供一个打印功能即可。
 
 ```js
 export default function printMe() {
@@ -333,6 +333,8 @@ module.exports = {
 需要注意，Webpack 通过 `plugins` 属性控制在编译的不同生命周期适时调用对应的插件，与模块不同，这里的调用是顺序进行，即为先依赖 `clean-webpack-plugin` 清理 `dist` 下的现存内容，然后调用 `html-webpack-plugin` 生成 HTML 模板关联项目依赖。
 
 自行在外层目录安装本节新增的依赖到 `package.json`，然后运行 `npx webpack`，观察 `dist` 中的 HTML 文件，至此输出目录中的所有文件都已经被 Webpack 打包流程所管理。
+
+## 开发
 
 ## 代码切分
 
