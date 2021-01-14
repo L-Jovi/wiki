@@ -24,6 +24,8 @@ services:
       DB_USER: wikijs
       DB_PASS: 8cdqgXTBLxPqMabPxOfSCYXlu6I=
       DB_NAME: wiki
+    volumes:
+      - ./ssh:/home/node/.ssh
     restart: unless-stopped
     ports:
       - "3100:3000"
