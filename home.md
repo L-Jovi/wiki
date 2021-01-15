@@ -1,9 +1,9 @@
 ---
 title: 咖啡喵的海盗船
-description: Welcome aboard. 这是两个海盗的寻宝图， 也是两个学渣的世界学笔记。请随意参观 :)
+description: Welcome aboard~ 这是两个海盗的寻宝图，也是两个学渣的世界学笔记。请随意参观 :)
 published: true
-date: 2021-01-06T01:50:07.669Z
-tags: home
+date: 2021-01-15T03:05:26.735Z
+tags: home, index
 editor: markdown
 dateCreated: 2020-11-30T13:27:26.146Z
 ---
