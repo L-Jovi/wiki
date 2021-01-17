@@ -2,7 +2,7 @@
 title: HTTP1.x、HTTP2.0、HTTPS 傻傻也要分清楚
 description: 
 published: true
-date: 2021-01-06T13:45:03.878Z
+date: 2021-01-17T10:14:15.722Z
 tags: network, http, https
 editor: markdown
 dateCreated: 2020-11-30T15:34:57.219Z
@@ -11,7 +11,7 @@ dateCreated: 2020-11-30T15:34:57.219Z
 # HTTP1.0 和 HTTP1.1 的主要区别
 
 ## 长连接
-HTTP 1.1支持长连接（PersistentConnection）和请求的流水线（Pipelining）处理，在一个TCP连接上可以传送多个HTTP请求和响应，减少了建立和关闭连接的消耗和延迟，在HTTP1.1中默认开启Connection： keep-alive，一定程度上弥补了HTTP1.0每次请求都要创建连接的缺点。
+HTTP1.1 支持长连接（PersistentConnection）和请求的流水线（Pipelining）处理，在一个 TCP 连接上可以传送多个 HTTP 请求和响应，减少了建立和关闭连接的消耗和延迟，在 HTTP1.1 中默认开启 Connection： keep-alive，一定程度上弥补了 HTTP1.0 每次请求都要创建连接的缺点。
 参考链接：[HTTP1.0、HTTP1.1 和 HTTP2.0 的区别](https://juejin.cn/post/6844903489596833800)
 
 ## HTTP1.1 如何解决 HTTP 的队头阻塞（head-of-line blocking）问题？
