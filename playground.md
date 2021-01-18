@@ -2,7 +2,7 @@
 title: Playground
 description: 编辑本站常用的格式
 published: true
-date: 2021-01-18T07:51:42.025Z
+date: 2021-01-18T07:52:36.474Z
 tags: playground
 editor: markdown
 dateCreated: 2020-11-30T15:13:25.120Z
@@ -12,7 +12,7 @@ dateCreated: 2020-11-30T15:13:25.120Z
 
 ## 代码块
 
-```
+```js
 const p = new Promise((resolve, reject) => {
   setTimeout(() => {
     console.log('miao')
