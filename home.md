@@ -2,7 +2,7 @@
 title: 咖啡喵的海盗船
 description: Welcome aboard~ 这是两个海盗的寻宝图，也是两个学渣的世界学笔记。请随意参观 :)
 published: true
-date: 2021-01-15T03:05:26.735Z
+date: 2021-01-18T07:40:35.240Z
 tags: home, index
 editor: markdown
 dateCreated: 2020-11-30T13:27:26.146Z
@@ -63,7 +63,7 @@ dateCreated: 2020-11-30T13:27:26.146Z
 
 ### 应用设计
 
-- [Componentization *组件设计原则*](/zh/technology/componentization/component-design)
+- [Componentization *组件设计原则*](/zh/technology/design/component-design)
 {.links-list}
 
 ### 工具
