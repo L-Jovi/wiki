@@ -2,7 +2,7 @@
 title: 去抖动（Debounce）
 description: 用 JavaScript 实现 Debounce 功能
 published: true
-date: 2021-01-08T03:37:04.878Z
+date: 2021-01-30T04:45:56.856Z
 tags: javascript, tools, debounce
 editor: markdown
 dateCreated: 2021-01-05T08:10:04.873Z
@@ -29,7 +29,7 @@ dateCreated: 2021-01-05T08:10:04.873Z
 那么这个**重置计时器延迟调用**行为可以用 JavaScript 实现成下面的样子。
 
 ```js
-function debounce(func, wait = 50) {
+function debounce(fn, wait = 50) {
   let timer = 0
   
   return function(...args) {
@@ -37,7 +37,7 @@ function debounce(func, wait = 50) {
     	clearTimeout(timer)
     }
     timer = setTimeout(() => {
-    	func.apply(this, args)
+    	fn.apply(this, args)
     }, wait)
   }
 }
