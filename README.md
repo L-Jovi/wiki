@@ -1,6 +1,16 @@
+---
+title: README
+description: 
+published: true
+date: 2021-05-07T08:40:06.269Z
+tags: 
+editor: markdown
+dateCreated: 2020-12-27T06:13:28.058Z
+---
+
 # Wiki
 
-维基主站地址为 [wiki.jovipro.com](https://wiki.jovipro.com) ，初期域名暂时托管到 [jovipro.com](https://wiki.jovipro.com)，后续会迁移至团队独立域名。
+维基主站地址为 [blackpearl.fun](https://blackpearl.fun) ，即为我们两人小团队的独立域名。
 
 ## 说明
 
@@ -17,8 +27,8 @@
 
 - 海扎克
 
-  [blog.hijack.rocks](https://blog.hijack.rocks)
+  [hijack.rocks](https://blog.hijack.rocks)
 
 - 海德拉
 
-  [blog.jovipro.com](https://blog.jovipro.com)
+  [jovipro.com](https://blog.jovipro.com)
