@@ -2,7 +2,7 @@
 title: 现代浏览器 - 深入理解
 description: 对 Mariko Kosaka 所著 Inside look at modern web browser 的理解
 published: true
-date: 2020-12-30T03:16:39.407Z
+date: 2021-05-20T06:26:25.889Z
 tags: browser
 editor: markdown
 dateCreated: 2020-12-07T07:23:09.114Z
@@ -13,6 +13,8 @@ dateCreated: 2020-12-07T07:23:09.114Z
 此文可看做 Chrome 开发者 Mariko Kosaka 的[《Inside look at modern web browser》](https://developers.google.com/web/updates/2018/09/inside-browser-part1)的译文。
 网络上已存在不同版本、质量的翻译和糅杂。笔者不做糅杂，只愿结合自己的理解，呈现较流畅、平实的语言版本，加入部分专业术语的官方链接，以供参考和理解。
 
+
+> 在这个由 4 部分组成的文章中，我们将在 Chrome 浏览器中由浅至深地探索从高级架构到渲染管道细节的内容。如果您想知道浏览器如何将你的代码变成运转起来的网站，或者不确定为什么某些特定技术会被推荐用来提高性能，那么本系列适合您。
 
 
 # 第一部分
