@@ -1,8 +1,8 @@
 ---
-title: 诗与远方
+title: 诗和远方的浪涛
 description: Welcome aboard~ 这是两个海盗的寻宝图，也是两个学渣的世界学笔记。请随意参观 :)
 published: true
-date: 2021-06-02T09:51:04.104Z
+date: 2021-06-02T09:52:49.839Z
 tags: home, index
 editor: markdown
 dateCreated: 2020-11-30T13:27:26.146Z
