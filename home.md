@@ -2,7 +2,7 @@
 title: 诗和远方的浪涛
 description: Welcome aboard~ 这是两个海盗的寻宝图，也是两个学渣的世界学笔记。请随意参观 :)
 published: true
-date: 2021-08-03T07:23:27.551Z
+date: 2021-08-19T08:27:54.553Z
 tags: home, index
 editor: markdown
 dateCreated: 2020-11-30T13:27:26.146Z
@@ -10,7 +10,7 @@ dateCreated: 2020-11-30T13:27:26.146Z
 
 # 引言
 
-本维基记录了[`@海德拉`](https://blog.jovipro.com/)和[`@暂时查无此人`](https://google.com/)两位同学的成长积累。所有内容来源于我们各自维护的印象笔记本，经过梳理后发布于此。
+本维基记录了[`@海德拉`](https://blog.jovipro.com/)和[`@海扎克`](https://hijack.rocks/)两位同学的成长积累。所有内容来源于我们各自维护的印象笔记本，经过梳理后发布于此。
 
 - **关于我们**
   我们从事互联网技术研发方向，希望成为不放弃思考的人，并能够为这个世界和所生活在其中的人们做出贡献。
