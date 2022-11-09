@@ -2,7 +2,7 @@
 title: Playground
 description: 编辑本站常用的格式
 published: true
-date: 2021-01-18T07:52:36.474Z
+date: 2022-11-09T05:47:58.238Z
 tags: playground
 editor: markdown
 dateCreated: 2020-11-30T15:13:25.120Z
@@ -23,7 +23,7 @@ const p = new Promise((resolve, reject) => {
 
 ## 引用
 
-> 首先，需要光。
+> 首先，要有光。
   —— 海德喵喵
 
 ## 列表
