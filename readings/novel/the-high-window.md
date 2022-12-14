@@ -2,13 +2,12 @@
 title: 《高窗》介绍及人物备忘录
 description: 
 published: true
-date: 2022-12-14T13:50:22.920Z
+date: 2022-12-14T13:56:59.257Z
 tags: 小说
 editor: markdown
 dateCreated: 2022-12-14T13:50:22.920Z
 ---
 
-# 《高窗》介绍及人物备忘录
 
 ## 介绍
 
