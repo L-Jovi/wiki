@@ -2,7 +2,7 @@
 title: Docker 应用和原理
 description: 使用容器化技术搭建微服务
 published: true
-date: 2021-01-14T07:34:42.789Z
+date: 2023-03-08T02:25:48.438Z
 tags: docker
 editor: markdown
 dateCreated: 2020-12-10T17:21:10.697Z
@@ -821,7 +821,7 @@ docker run -d -p 5000:5000 --name registry registry:2
 docker pull ubuntu
 ```
 
-然后通过 `tag` 指令重命名本地的 ubuntu 镜像名称。
+然后通过 `tag` 指令重命名本地 ubuntu 镜像的名称。
 
 ```bash
 docker image tag ubuntu localhost:5000/myfirstimage
