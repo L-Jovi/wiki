@@ -2,7 +2,7 @@
 title: Playground
 description: 编辑本站常用的格式
 published: true
-date: 2022-11-09T05:47:58.238Z
+date: 2023-04-11T12:18:16.640Z
 tags: playground
 editor: markdown
 dateCreated: 2020-11-30T15:13:25.120Z
@@ -35,6 +35,15 @@ const p = new Promise((resolve, reject) => {
   - game
   - anime
   
+ ## 表格
+
+| Tables   |      Are      |  Cool |
+|----------|:-------------:|------:|
+| col 1 is |  left-aligned | $1600 |
+| col 2 is |    centered   |   $12 |
+| col 3 is | right-aligned |    $1 |
+    
+
 # 表情符号
 
 `:apple:` will produce :apple:
