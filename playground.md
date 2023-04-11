@@ -2,7 +2,7 @@
 title: Playground
 description: 编辑本站常用的格式
 published: true
-date: 2023-04-11T12:25:11.057Z
+date: 2023-04-11T12:25:41.966Z
 tags: playground
 editor: markdown
 dateCreated: 2020-11-30T15:13:25.120Z
@@ -34,8 +34,8 @@ const p = new Promise((resolve, reject) => {
 - Hydra
   - game
   - anime
-  
- ## 表格
+
+## 表格
 
 | Tables   |      Are      |  Cool |
 |----------|:-------------:|------:|
